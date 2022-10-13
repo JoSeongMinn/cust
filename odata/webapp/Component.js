@@ -22,6 +22,7 @@ sap.ui.define([
                 UIComponent.prototype.init.apply(this, arguments);
 
                 var oData = {
+                    sCustId     : null,
                     sPlant      : null,
                     sCheckIn    : null,
                     sCheckOut   : null,
@@ -32,7 +33,7 @@ sap.ui.define([
                     iHoliday    : 0,
                     iAdultNum   : 1,
                     iChildNum   : 0,  
-                    iBabyNum    : 0,                    
+                    iBabyNum    : 0,
                     sNumInfo    : null,
                     oRoomInfo   : [],
 
