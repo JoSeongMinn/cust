@@ -1,0 +1,201 @@
+<mvc:View controllerName="sap.sync.odata.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout"
+    xmlns:u="sap.ui.unified" class="viewPadding"
+    xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+    xmlns:m="sap.m">
+    <Page id="page" title="{i18n>title1}" class="sapUiResponsivePadding--header">        
+        <VBox alignItems="End">
+            <Button text="객실 조회" press="onNavToView2" class="sapUiMediumMarginEnd" type="Emphasized"/>
+        </VBox>
+        <content>
+			<ObjectHeader
+				title="호텔, 날짜, 인원 선택"
+				backgroundDesign="Solid" >
+				<attributes>
+					<ObjectAttribute title="호텔 지점 " text="{view>/sPlant}" />
+					<ObjectAttribute id="checkInInfo"  title="Check-In "  text="" />
+					<ObjectAttribute id="checkOutInfo" title="Check-Out " text="" />
+					<ObjectAttribute title="예약 기간 " text="{view>/sDateInfo}" />
+					<ObjectAttribute title="예약 인원 " text="{view>/sNumInfo}" />
+				</attributes>
+			</ObjectHeader>
+			<IconTabBar id="iconTabBar"
+				expanded="{device>/isNoPhone}"
+				class="sapUiSmallMarginBottom sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter
+						text="지점 선택">
+						<f:SimpleForm
+							minWidth="1024"
+							maxContainerCols="2"
+							layout="ResponsiveGridLayout" >
+							<f:title>
+								<core:Title text="지점" />
+							</f:title>
+
+                            <Table id="table"
+                                inset="false"
+                                mode="SingleSelectMaster" selectionChange="onPressItem">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <content>
+                                            <ToolbarSpacer/>
+                                            <Button text="선택 완료" press="onSelctInfo" width="7rem" icon="sap-icon://complete" class="sapUiMediumMarginBegin"/>
+                                        </content>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column>
+                                        <Text text=""/>
+                                    </Column>
+                                    <Column>
+                                        <Text text="지점 명" />
+                                    </Column>
+                                    <Column>
+                                        <Text text="소재지" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="Seoul" vAlign="Middle" >
+                                        <cells>
+                                            <Image src="{view>/Seoul}"/>
+                                            <Label text="Grand SAP Seoul" design="Bold" />
+                                            <Text
+                                                text="서울 중구 관철동" />
+                                        </cells>
+                                    </ColumnListItem>
+                                    <ColumnListItem id="Jeju" vAlign="Middle">
+                                        <cells>
+                                            <Image src="{view>/Jeju}" />
+                                            <Label text="Grand SAP Jeju" design="Bold" />
+                                            <Text
+                                                text="제주 서귀포시 정방동" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+						</f:SimpleForm>
+					</IconTabFilter>
+
+					<IconTabFilter id="dateSelection" text="기간 선택">                     
+                        <f:SimpleForm minWidth="10rem"
+							maxContainerCols="2"
+							layout="ResponsiveGridLayout">
+                            <f:title>
+								<core:Title text="Calendar" />                            
+							</f:title>
+                            <OverflowToolbar style="Clear">
+                                <ToolbarSpacer/>
+                                <Button text="선택 취소" press="onCancel" width="7rem" icon="sap-icon://refresh"
+                                class="sapUiMediumMarginBegin"/>
+                                <Button text="선택 완료" press="onSelctInfo" width="7rem" icon="sap-icon://complete"
+                                class="sapUiMediumMarginBegin"/>
+                            </OverflowToolbar>                            
+                            <u:Calendar id="calendar" select="handleCalendarSelect"
+                                intervalSelection="true" showWeekNumbers="false"
+                                minDate="{date>/minDate}" maxDate="{date>/maxDate}"
+                                disabledDates="{path: 'view>/disabled'}" width="50rem" months="2">
+                                    <u:disabledDates>
+                                        <u:DateRange
+                                            startDate="{start}"
+                                            endDate="{end}"/>
+                                    </u:disabledDates>
+                            </u:Calendar>                 
+                            <VBox>
+                                <Text text="" class="sapUiLargeMarginTop"/>
+                                <HBox>
+                                    <Label  text="Check-In :  "
+                                            class="sapUiTinyMargin" />
+                                    <Text	id="selectedDateFrom"
+                                            text="No Date Selected"
+                                            class="sapUiTinyMargin"/>
+                                </HBox>
+                                <HBox>
+                                    <Label	text="Check-Out : "
+                                            class="sapUiTinyMargin" />
+                                    <Text	id="selectedDateTo"
+                                            text="No Date Selected"
+                                            class="sapUiTinyMargin"/>
+                                </HBox>
+                                <HBox>
+                                    <Label	text="평일 : "
+                                            class="sapUiTinyMargin" />
+                                    <Text	id="weekDay"
+                                            text=""
+                                            class="sapUiTinyMargin"/>
+                                </HBox>
+                                <HBox>
+                                    <Label	text="주말 : "
+                                            class="sapUiTinyMargin" />
+                                    <Text	id="weekendDay"
+                                            text=""
+                                            class="sapUiTinyMargin"/>
+                                </HBox>
+                                <HBox>
+                                    <Label	text="공휴일 : "
+                                            class="sapUiTinyMargin" />
+                                    <Text	id="holiDay"
+                                            text=""
+                                            class="sapUiTinyMargin"/>
+                                </HBox>
+                            </VBox>                            
+                            <Text text="* 예약은 최대 6개월 이후까지 가능하며, 최장 1달까지 가능합니다."
+                                class="sapUiSmallMarginTop" />
+                        </f:SimpleForm>
+					</IconTabFilter>
+					<IconTabFilter text="인원 선택">
+                        <f:SimpleForm minWidth="50rem"
+							maxContainerCols="1"
+							layout="ResponsiveGridLayout">
+                            <f:title>
+								<core:Title text="예약 인원" />                            
+							</f:title>
+                            <OverflowToolbar style="Clear">
+                                <ToolbarSpacer/>
+                                <Button text="선택 완료" press="onSelctInfo" width="7rem" icon="sap-icon://complete"
+                                class="sapUiMediumMarginBegin"/>
+                            </OverflowToolbar>            
+                            <VBox>
+                                <HBox>
+                                    <Label text="성인 인원" labelFor="adultNum" class="sapUiTinyMargin" />
+                                    <ComboBox id="adultNum" change="onAdultNum" width="5rem">
+                                        <items>
+                                            <core:Item  text="1명" key="adult1"/>
+                                            <core:Item  text="2명" key="adult2"/>
+                                            <core:Item  text="3명" key="adult3"/>
+                                            <core:Item  text="4명" key="adult4"/>
+                                        </items>
+                                    </ComboBox>
+                                    <Label text="아동 인원" labelFor="childNum" class="sapUiTinyMargin" width=""/>
+                                    <ComboBox id="childNum" change="onChildNum" width="5rem">
+                                        <items>
+                                            <core:Item  text="0명" key="child0"/>
+                                            <core:Item  text="1명" key="child1"/>
+                                            <core:Item  text="2명" key="child2"/>
+                                            <core:Item  text="3명" key="child3"/>
+                                        </items>
+                                    </ComboBox>
+                                    <Label text="유아 인원" labelFor="babyNum" class="sapUiTinyMargin"/>
+                                    <ComboBox id="babyNum" change="onBabyNum" width="5rem">
+                                        <items>
+                                            <core:Item  text="0명" key="baby0"/>
+                                            <core:Item  text="1명" key="baby1"/>
+                                            <core:Item  text="2명" key="baby2"/>
+                                            <core:Item  text="3명" key="baby3"/>
+                                        </items>
+                                    </ComboBox>
+                                    <Text text="" class="sapUiLargeMarginBegin"/>
+                                </HBox>
+                                <HBox>
+                                    <Text text="* 예약은 최소 1명의 성인을 포함해야 하며, 아동(유아)을 포함하여 최대 4인까지 가능합니다." class="sapUiLargeMarginTop"/>                                    
+                                </HBox>
+                            </VBox>
+                        </f:SimpleForm>                    
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>        
+    </Page>
+</mvc:View>
+ 

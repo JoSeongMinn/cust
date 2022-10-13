@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWROOM_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="MonthBook" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Roomid"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="지점 코드"/>
+                <Property Name="Roomid" Type="Edm.String" Nullable="false" MaxLength="9" sap:unicode="false" sap:label="객실 번호"/>
+                <Property Name="Roomno" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="객실 호수"/>
+                <Property Name="Roomtp" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="객실 타입"/>
+                <Property Name="Adult" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="성인 인원"/>
+                <Property Name="Child" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="아동 인원"/>
+                <Property Name="Indat" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Check-In"/>
+                <Property Name="Outdat" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Check-Out"/>
+                <Property Name="Note" Type="Edm.String" MaxLength="255" sap:unicode="false" sap:label="비고"/>
+            </EntityType>
+            <EntityContainer Name="ZGWROOM_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="MonthBookSet" EntityType="ZGWROOM_SRV.MonthBook" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWROOM_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWROOM_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

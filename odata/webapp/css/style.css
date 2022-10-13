@@ -1,0 +1,123 @@
+
+/* Label */
+.sapMLabel:not(.sapMLabelWrapped) .sapMLabelTextWrapper {
+    display: inline-block ;
+    vertical-align: top;
+    max-width: 100%;
+    margin-left: 2rem;
+}
+
+/* Calendar UI Form */
+.sapUiFormM:not(.sapUiFormEdit) .sapUiFormResGridCont>div {
+    width: fit-content;
+}
+
+/* Input */
+.sapMInputBaseContentWrapper {
+    height: 2.5rem;
+    position: relative !important;
+    border-radius: 0;
+    vertical-align: middle !important;
+    margin-right: 1.5rem !important;
+    background: none;
+    background-color: #fff;
+    border: 0.0625rem solid #89919a;
+    border-radius: 0.125rem;
+}
+.sapUiSizeCompact .sapMInputBaseHasEndIcons .sapMInputBaseContentWrapper, .sapUiSizeCompact .sapMInputBaseHasBeginIcons .sapMInputBaseContentWrapper {
+    margin-top: 0.25rem ;
+}
+
+/* Text */
+.sapUiHLayoutChildWrapper>.sapMText {
+    margin-top: 0.9rem !important;
+    margin-left: 1rem !important;
+}
+
+
+/* 선택 불가 날짜 디자인 */
+.sapUiCalItemDsbl {
+    color: rgba(194, 194, 194, 0.71) !important;
+}
+
+/* 달력 Column 크기 */
+.sapUiSizeCompact .sapUiCalItem, .sapUiSizeCompact .sapUiCalWeekNum {
+    height: 2.5rem !important;
+    line-height: 2.5rem !important;
+}
+
+/* 주말 디자인 */
+.sapUiCalItemWeekEnd, html.sap-desktop .sapUiCalItemWeekEnd:not(.sapUiCalItemSel):focus {
+    background-color: rgb(240 240 240) ;
+    color: red ;
+}
+
+/* 오늘 날짜 디자인 */
+.sapUiCalItemNow>.sapUiCalItemText {
+    border: 0.125rem solid #6969f7;
+}
+
+/* 선택된 날짜 테두리 위치*/
+.sapUiSizeCompact .sapUiCalItemNow:not(.sapUiCalItemSelBetween)>.sapUiCalItemText {
+    line-height: 2.5rem !important;
+}
+/* 선택된 날짜 색상 */
+.sapUiCalItem.sapUiCalItemSel:not(.sapUiCalItemSelBetween) {
+    background-color: #4a749e !important;
+}
+.sapUiCalItemSel {
+    color: #ffffff !important;
+}
+/* 선택된 기간 색상 */
+.sapUiCalItemSelBetween, .sapUiCalItemSelBetween.sapUiCalItemOtherMonth {
+    background-color: #e5ecf3 !important;
+    color: #32363a !important;
+}
+/* 선택된 기간 테두리 위치*/
+.sapUiSizeCompact .sapUiCalItemSelBetween .sapUiCalItemText, .sapUiSizeCompact .sapUiCalItemSel.sapUiCalItemSelBetween:not(.sapUiCalItemNow)>.sapUiCalItemText {
+    line-height: 2.5rem !important;
+}
+
+/* 선택된 기간 테두리 디자인*/
+.sapUiCalItem.sapUiCalItemSel.sapUiCalItemSelBetween:not(.sapUiCalItemNow)>.sapUiCalItemText {
+    border: 0.0625rem solid #979797 !important;
+    border-radius: 0.25rem !important;
+}
+
+/* 마우스 커서 */
+.sapUiCalWH, .sapUiCalItem {
+    cursor: pointer;
+    
+}
+
+/* 마우스 오버 효과 */
+.sapUiCalItemText:hover {
+    background-color: rgba(188, 187, 191, 0.771) !important;
+}
+
+/* StatusInverted 디자인 */
+.sapMObjStatusInverted.sapMObjStatusNone .sapMObjStatusText, .sapMObjStatusInverted.sapMObjStatusNone .sapMObjStatusIcon {
+    background-color: #2e465fbd;
+    font-size: 0.9rem;
+}
+/* StatusInverted 테두리 */
+.sapMObjStatusInverted .sapMObjStatusText, .sapMObjStatusInverted .sapMObjStatusIcon .sapMObjStatusIconOnly {
+    padding: 0.2rem 0.2rem;
+    border-radius: 0.3rem;
+}
+
+/* Table List Label */
+.sapMListTbl .sapMText, .sapMListTbl .sapMLabel {
+    font-size: 1rem;
+    color: #32363a;
+}
+
+/* Table List Title */
+.sapMListTbl .sapMObjectIdentifierTitle .sapMLnk, .sapMListTbl .sapMObjectIdentifierTitle .sapMText {
+    font-size: 1.2rem;
+}
+
+/* Filter 위치 */
+.sapUiSizeCompact .sapMInputBase {
+    height: 2.5rem;
+}

@@ -1,0 +1,178 @@
+<mvc:View controllerName="sap.sync.odata.controller.View3"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+    xmlns:f="sap.f" xmlns:layout="sap.ui.layout" height="100%"
+    xmlns:fb="sap.ui.comp.filterbar" >    
+    <f:DynamicPage id="page"
+        stickySubheaderProvider="iconTabBar"
+        class="sapUiNoContentPadding"
+        toggleHeaderOnTitleClick="{/titleClickable}">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="객실 선택" titleStyle="H2"/>
+                </f:heading>
+                <f:expandedContent>
+                    <ObjectStatus id="expandedStatus" class="sapUiSmallMarginBigin" 
+                        text="No filters active" state="Indication05" />
+                </f:expandedContent>
+                <f:snappedContent>                    
+                    <!-- <ObjectStatus text="{InputData>/sPlant}" state="None" 
+                        inverted="true" class="sapUiSmallMarginEnd" />
+                    <ObjectStatus text="{InputData>/sCheckIn} ~ {InputData>/sCheckOut}" state="None" 
+                        inverted="true" class="sapUiSmallMarginEnd" />
+                    <ObjectStatus text="{InputData>/sNumInfo}" state="None" 
+                        inverted="true" class="sapUiSmallMarginEnd" /> -->
+
+                    <ObjectStatus text="Grand SAP Seoul(서울 본점)" state="None" 
+                        inverted="true" class="sapUiSmallMarginEnd" />
+                    <ObjectStatus text="2022-10-14 ~ 2022-10-15" state="None" 
+                        inverted="true" class="sapUiSmallMarginEnd" />
+                    <ObjectStatus text="성인: 2명/아동: 1명" state="None" 
+                        inverted="true" class="sapUiSmallMarginEnd" />
+                    <ObjectStatus id="snappedStatus" class="sapUiSmallMarginBigin" 
+                        text="No filters active" state="Indication05" />
+                </f:snappedContent>
+                <f:snappedTitleOnMobile>
+                    <Title text="객실 선택"/>
+                </f:snappedTitleOnMobile>
+                <f:actions>
+                    <Button text="test" press="onCheck"/>
+                    <Button text="이전 화면" type="Transparent" press="onNavBack"/>
+                    <Button text="선택 완료" type="Emphasized"  press="onSelect"/>
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <!-- DynamicPage Header -->
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+
+                        <!-- <ObjectAttribute title="호텔 지점 " text="{InputData>/sPlant}" class="sapUiTinyMargin" />
+					    <ObjectAttribute id="checkIn"  title="Check-In "  text="{InputData>/sCheckIn}" class="sapUiTinyMargin" />
+					    <ObjectAttribute id="checkOut" title="Check-Out " text="{InputData>/sCheckOut}" class="sapUiTinyMargin" />
+					    <ObjectAttribute title="예약 기간 " text="{InputData>/sDateInfo}" class="sapUiTinyMargin" />
+					    <ObjectAttribute title="예약 인원 " text="{InputData>/sNumInfo}" class="sapUiTinyMargin" /> -->
+
+                        <ObjectAttribute title="호텔 지점 " text="Grand SAP Seoul(서울 본점)" class="sapUiTinyMargin"/>
+					    <ObjectAttribute id="checkInInfo"  title="Check-In "  text="2022-10-14" class="sapUiTinyMargin"/>
+					    <ObjectAttribute id="checkOutInfo" title="Check-Out " text="2022-10-15" class="sapUiTinyMargin"/>
+					    <ObjectAttribute title="예약 기간 " text="1박 2일" class="sapUiTinyMargin"/>
+					    <ObjectAttribute title="예약 인원 " text="성인 1명/아동 2명" class="sapUiTinyMargin"/>
+                        <Label width="30rem"/>
+                    </layout:VerticalLayout>
+
+                    <layout:VerticalLayout>
+                        <ObjectAttribute title="요일 정보" class="sapUiTinyMargin"/>
+                        <ObjectStatus text="평일: {InputData>/iWeekDay}" state="None" class="sapUiTinyMarginBegin"/>
+                        <ObjectStatus text="주말: {InputData>/iWeekendDay}" state="None" class="sapUiTinyMarginBegin"/>
+                        <ObjectStatus text="휴일: {InputData>/iHoliday}" state="None" class="sapUiTinyMarginBegin"/>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+
+                <layout:HorizontalLayout> 
+                    <fb:FilterBar id="filterbar" useToolbar="false" showFilterConfiguration="false"
+                        search="onSearch" filterChange="onFilterChange" >
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem groupName="G1" groupTitle="Group1" 
+                                visibleInFilterBar="true" name="Classtp" label="객실 타입">
+                                <fb:control>
+                                    <MultiComboBox
+                                        id="roomType"
+                                        name="객실 타입"
+                                        selectionChange="onSelectionChange"
+                                        items="{
+                                            path: 'view2>/oRoomType',
+                                            templateShareable: true
+                                        }">
+                                        <core:Item id="group1" key="{view2>key}" text="{view2>name}"/>
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem groupName="G2" groupTitle="Group2" 
+                                visibleInFilterBar="true" name="Bedtype" label="침대 타입">
+                                <fb:control>
+                                    <MultiComboBox
+                                        id="bedType"
+                                        name="침대 타입"
+                                        selectionChange="onSelectionChange"
+                                        items="{
+                                            path: 'view2>/oBedType',
+                                            templateShareable: true
+                                        }">
+                                        <core:Item key="{view2>key}" text="{view2>name}"/>
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem groupName="G3" groupTitle="Group3" 
+                                visibleInFilterBar="true" name="Viewtp" label="View">
+                                <fb:control>
+                                    <MultiComboBox
+                                        id="viewType"
+                                        name="View"
+                                        selectionChange="onSelectionChange"
+                                        items="{
+                                            path: 'view2>/oViewType',
+                                            templateShareable: true
+                                        }">
+                                        <core:Item key="{view2>key}" text="{view2>name}"/>
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
+                </layout:HorizontalLayout>                 
+            </f:DynamicPageHeader>
+        </f:header>        
+        <f:content>                        
+            <Table id="table"
+                inset="false"
+                items="{
+                        path: 'view2>/oRoomData'
+                        }"
+                mode="SingleSelectMaster"
+                selectionChange="onPressItem">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Label text="* 할인 및 할증이 적용되지 않은 요금입니다."/>
+                            <ToolbarSpacer/>
+                        </content>
+                    </OverflowToolbar>                                
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="" />
+                    </Column>
+                    <Column>
+                        <Text text="객실 타입" textAlign="End"/>
+                    </Column>
+                    <Column>
+                        <Text text="침대 타입" />
+                    </Column>
+                    <Column>
+                        <Text text="View" />
+                    </Column>
+                    <Column hAlign="End">
+                        <Text text="Price" class="sapUiSmallMarginEnd"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="items" vAlign="Middle">
+                        <cells>
+                            <Image src="{view2>images}" class="sapUiLargeMarginEnd"/>
+                            <ObjectIdentifier title="{view2>Classtp}" 
+                                text="{view2>Rmsize}" class="sapUiMediumMarginBegin" />
+                            <Text text="{view2>Bedtype}" />
+                            <Text text="{view2>Viewtp}" />
+                            <Text text="{view2>Price}" textAlign="End"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
+ 
