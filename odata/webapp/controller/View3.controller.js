@@ -16,42 +16,22 @@ sap.ui.define([
         return Controller.extend("sap.sync.odata.controller.View3", {
             onInit: function () {
                 var oData = {
-                    oRoomData : [],
-                    oRoomType : [],
-                    oBedType  : [],
-                    oViewType : [],
-                    oSample: [
-                        {  Bedtype : "Single", Classtp : "Standard Single", Price : "1,111 원",
-                            Rmsize : "24㎡",   Roomtp  : "SSTSGC",         Viewtp : "City View" },
-
-                        {  Bedtype : "Double", Classtp : "Standard",       Price : "1,11100 원",
-                            Rmsize : "28㎡",   Roomtp  : "SSTDBM",         Viewtp : "Mountain View" },
-
-                        {  Bedtype : "Twin", Classtp : "Standard",         Price : "1,11100 원",
-                            Rmsize : "28㎡",   Roomtp  : "SSTTWC",         Viewtp : "City View" }
-                    ],
-                    sRoomClass: null,
-                    sRoomId   : null,
-                    sRoomNo   : null,
-                    sRoomType : null,
-                    sTypeInfo : null,
-                    sRoomSize : null,
-                    sPrice    : null
+                    oOptData   : [],
+                    aCustInfo  : {},
+                    aPriceInfo : {},
+                    iAddition  : 0,
+                    sCustType  : "",
+                    sCustDiscount : "",
+                    aTotalOptDesc : {}
                 }
                 var oRouter = this.getRouter();
                 var oDataModel = new JSONModel(oData);
-                this.getView().setModel(oDataModel, "view2");
+                this.getView().setModel(oDataModel, "view3");
 
-	            oRouter.getRoute("View2").attachMatched(this._onRouteMatched, this);
+	            oRouter.getRoute("View3").attachMatched(this._onRouteMatched, this);
                 
                 this.oExpandedStatus = this.getView().byId("expandedStatus");
                 this.oSnappedStatus = this.getView().byId("snappedStatus");
-                this.oFilterBar = this.getView().byId("filterbar");
-                this.oTable = this.getView().byId("table");
-
-                this.oFilterBar.registerFetchData(this._fetchData);
-                this.oFilterBar.registerApplyData(this._applyData);
-                this.oFilterBar.registerGetFiltersWithValues(this._getFiltersWithValues);
             },
 	
             getRouter: function () {
@@ -82,231 +62,102 @@ sap.ui.define([
             _onRouteMatched: function(oEvent){
                 var oCompoModel = this.getOwnerComponent().getModel("InputData")
                 var oModel  = this.getView().getModel();
-                // var oModel2 = new sap.ui.model.json.JSONModel();
-                var oView2Model = this.getView().getModel("view2");
+                var oView3Model = this.getView().getModel("view3");
 
-                var test = oCompoModel.getProperty("/sPlant");
+                var test = oCompoModel.getProperty("/sCustId");
                 if( test ) {
                 
                     var sPlant  = oCompoModel.getProperty("/sPlant").substring(10,11),
-                    sAdult  = oCompoModel.getProperty("/iAdultNum") + "",
-                    iChild  = oCompoModel.getProperty("/iChildNum"),
-                    iBaby   = oCompoModel.getProperty("/iBabyNum"),
-                    sChild  = iChild + iBaby + "",
-                    iPeriod = oCompoModel.getProperty("/oDateInfo").length,
-                    sIndat  = oCompoModel.getProperty("/oDateInfo")[0],
-                    sOutdat = oCompoModel.getProperty("/oDateInfo")[iPeriod-1];
-
-                    sIndat  = sIndat.replace('-', '').replace('-', '');
-                    sOutdat = sOutdat.replace('-', '').replace('-', '');
+                        sRoomId = oCompoModel.getProperty("/sRoomId"),
+                        sCustId = oCompoModel.getProperty("/sCustId"),
+                        sPrice  = oCompoModel.getProperty("/sPrice");
 
                 } else {
-                    var sPlant = 'S',
-                        sAdult = '1',
-                        sChild = '1',
-                        sIndat = '20221009',
-                        sOutdat = '20221011'
-                }                
+                    var sPlant  = 'S',
+                        sRoomId = 'SDLDBC001',
+                        sCustId = '001',
+                        sPrice = '1,500,000 원'
+                }
 
                 var oFilter1 = new Filter("Plant",  FilterOperator.EQ, sPlant);
-                var oFilter2 = new Filter("Adult",  FilterOperator.EQ, sAdult);
-                var oFilter3 = new Filter("Child",  FilterOperator.EQ, sChild);
-                var oFilter4 = new Filter("Indat",  FilterOperator.EQ, sIndat);
-                var oFilter5 = new Filter("Outdat", FilterOperator.EQ, sOutdat);
+                var oFilter2 = new Filter("Roomid", FilterOperator.EQ, sRoomId);
+                var oFilter3 = new Filter("Custid",  FilterOperator.EQ, sCustId);
 
                 var aFilter  = [];
 
-                aFilter.push(oFilter1, oFilter2, oFilter3, oFilter4, oFilter5);
-                oModel.read("/MonthBookSet", {
+                aFilter.push(oFilter1, oFilter2, oFilter3);
+                oModel.read("/BookingOptionSet", {
                     filters: aFilter,
                     success: function (oData) { 
                         var data = oData; 
                         var aData = data.results;
                         var ilength = aData.length;
-                        var aRoomData = {};
-                        var oRoomData = [];
+                        var aOptData = {};
+                        var oOptData = [];
+                        var aCustInfo = {};
+                        var aPriceInfo = {};
 
-                        var aRoomType = {};
-                        var oRoomType = [];
-                        var bRoomType = true;
-                        var sRmtpCheck;
-                        var aBedType = {};
-                        var oBedType = [];
-                        var bBedType = true;
-                        var sBedtpCheck;
-                        var aViewType = {};
-                        var oViewType = [];
-                        var bViewType = true;
-                        var sViewtpCheck;
-
-                        var sClassType,
-                            sBedType,
-                            sViewType,
-                            sRoomSize,
+                        var sOptName,
                             sImages;
 
                         for (var i=0; i<ilength; i++) {
-                            switch (aData[i].Roomtp.substring(1,3)) {
-                                case "ST":
-                                    sClassType = "Standard";
+                            switch (aData[i].Optionnm) {
+                                case "ADDLNO":
+                                    sOptName = "추가 인원";
                                     break;
 
-                                case "DL":
-                                    sClassType = "Deluxe";
+                                case "BKFST":
+                                    sOptName  = "조식 추가";
                                     break;
 
-                                case "GD":
-                                    sClassType = "Grand Deluxe";
+                                case "ERCHK":
+                                    sOptName  = "Early Check-In";
                                     break;
 
-                                case "EC":
-                                    sClassType = "Executive";
-                                    break;
-                            }
-
-                            switch (aData[i].Roomtp.substring(3,5)) {
-                                case "SG":
-                                    sClassType = "Standard Single";
-                                    sBedType = "Single";
-                                    sRoomSize  = "24㎡";
-                                    sImages = "../images/STSG.jpg";
+                                case "LTCHK":
+                                    sOptName  = "Late Check-Out";
                                     break;
 
-                                case "DB":
-                                    sBedType = "Double";
+                                case "EXTBED":
+                                    sOptName  = "추가 침대";
+                                    break;;
 
-                                    switch (sClassType) {
-                                        case "Standard":
-                                            sRoomSize  = "28㎡";
-                                            sImages = "../images/STDBTW.jpg";
-                                            break;
-
-                                        case "Deluxe":
-                                            sRoomSize  = "36㎡";
-                                            sImages = "../images/DLDBTW.jpg";
-                                            break;
-
-                                        case "Grand Deluxe":
-                                            sRoomSize  = "43㎡";
-                                            sImages = "../images/GDDBTW.jpg";
-                                            break;
-
-                                        case "Executive":
-                                            sRoomSize  = "51㎡";
-                                            sImages = "../images/ECDBTW.jpg";
-                                            break;
-                                    }
-                                    break;
-
-                                case "TW":
-                                    sBedType = "Twin";
-
-                                    switch (sClassType) {
-                                        case "Standard":
-                                            sRoomSize  = "28㎡";
-                                            sImages = "../images/STDBTW.jpg";
-                                            break;
-
-                                        case "Deluxe":
-                                            sRoomSize  = "36㎡";
-                                            sImages = "../images/DLDBTW.jpg";
-                                            break;
-
-                                        case "Grand Deluxe":
-                                            sRoomSize  = "43㎡";
-                                            sImages = "../images/GDDBTW.jpg";
-                                            break;
-
-                                        case "Executive":
-                                            sRoomSize  = "51㎡";
-                                            sImages = "../images/ECDBTW.jpg";
-                                            break;
-                                    }
-                                    break;
-
-                                case "SU":
-                                    sBedType = "Suite";
-                                    
-                                    switch (sClassType) {
-                                        case "Deluxe":
-                                            sClassType = "Deluxe Suite"
-                                            sRoomSize  = "66㎡"
-                                            sImages = "../images/DLSU.jpg";
-                                            break;
-
-                                        case "Grand Deluxe":
-                                            sClassType = "Grand Deluxe Suite"
-                                            sRoomSize  = "71㎡"
-                                            sImages = "../images/GDSU.jpg";
-                                            break;
-
-                                        case "Executive":
-                                            sClassType = "Executive Suite"
-                                            sRoomSize  = "84㎡"
-                                            sImages = "../images/ECSU.jpg";
-                                            break;
-                                    }
-                                    break;
-                            }                            
-
-                            switch (aData[i].Roomtp.substring(5)) {
-                                case "C":
-                                    sViewType = "City View";
-                                    break;
-
-                                case "M":
-                                    sViewType = "Mountain View";
-                                    break;
-
-                                case "O":
-                                    sViewType = "Ocean View";
+                                case "WLCAMNT":
+                                    sOptName  = "Welcome Amenity";
                                     break;
                             }
 
-                            aRoomData = { 
-                                Roomid : aData[i].Roomid,
-                                Roomno : aData[i].Roomno,
-                                Roomtp : aData[i].Roomtp,
-                                Price  : aData[i].Rmrate,
-                                Classtp: sClassType,
-                                Bedtype: sBedType,
-                                Viewtp : sViewType,
-                                Rmsize : sRoomSize,
-                                images : sImages 
+                            aOptData = { 
+                                Option   : sOptName,
+                                Price    : aData[i].Optprice,
+                                Quantity : 0,
+                                Total    : 0,
+                                sTotal   : ""
                             }
-                            oRoomData.push(aRoomData);
+                            oOptData.push(aOptData);
+                        }
 
-                            aRoomType = { key : sClassType, name : sClassType };
-                            aBedType  = { key : sBedType,   name : sBedType };
-                            aViewType = { key : sViewType,  name : sViewType };
-                            bRoomType = true;
-                            bBedType = true;
-                            bViewType = true;
+                        aCustInfo = {
+                            CustId    : sCustId,
+                            CustName  : oData.results[0].Custlnm + oData.results[0].Custfnm,
+                            CustType  : oData.results[0].Custtype,
+                            CustTel   : oData.results[0].Custtel,
+                            CustEmail : oData.results[0].Custemail
+                        }
 
-                            for(var i2=0; i2<oRoomType.length; i2++){
-                                if(i !== 0){ sRmtpCheck = oRoomType[i2].key }
-                                if(sRmtpCheck == sClassType){ bRoomType =false; }
-                            }
+                        aPriceInfo = {
+                            Price          : sPrice,
+                            CustDiscount   : oData.results[0].Custdsct,
+                            RoomDiscount   : oData.results[0].Roomdsct,
+                            RoomPremium    : oData.results[0].Roomprmm,
+                            WeekendPremium : oData.results[0].Dowprmm,
+                            HolidayPremium : oData.results[0].Holiprmm
+                        }
 
-                            for(var i3=0; i3<oBedType.length; i3++){
-                                if(i !== 0){ sBedtpCheck = oBedType[i3].key }
-                                if( sBedtpCheck == sBedType){ bBedType = false; }
-                            }
-
-                            for(var i4=0; i4<oViewType.length; i4++){
-                                if(i !== 0){ sViewtpCheck = oViewType[i4].key }
-                                if(sViewtpCheck == sViewType){ bViewType = false; }
-                            }
-
-                            if(bRoomType){ oRoomType.push(aRoomType); }
-                            if(bBedType) { oBedType.push(aBedType); }
-                            if(bViewType){ oViewType.push(aViewType); }
-                        };
-
-                        oView2Model.setProperty("/oRoomData", oRoomData);
-                        oView2Model.setProperty("/oRoomType", oRoomType);
-                        oView2Model.setProperty("/oBedType",  oBedType);
-                        oView2Model.setProperty("/oViewType", oViewType);
+                        oView3Model.setProperty("/oOptData",   oOptData);
+                        oView3Model.setProperty("/aCustInfo",  aCustInfo);
+                        oView3Model.setProperty("/aPriceInfo", aPriceInfo);
+                        oView3Model.setProperty("/sCustType",  oData.results[0].Custtype);
                         console.log("Success");
                     },
                     error: function (oError) {
@@ -315,213 +166,281 @@ sap.ui.define([
                 })
             },
 
-            _fetchData: function () {
-                var aData = this.oFilterBar.getAllFilterItems().reduce(function (aResult, oFilterItem) {
-                    aResult.push({
-                        groupName: oFilterItem.getGroupName(),
-                        fieldName: oFilterItem.getName(),
-                        fieldData: oFilterItem.getControl().getSelectedKeys()
-                    });
-
-                    return aResult;
-                }, []);
-
-                return aData;
+            _setting: function(){
+                this._calcPrice();
+                this._setOptDetail();
             },
 
-            _applyData: function (aData) {
-                aData.forEach(function (oDataObject) {
-                    var oControl = this.oFilterBar.determineControlByName(oDataObject.fieldName, oDataObject.groupName);
-                    oControl.setSelectedKeys(oDataObject.fieldData);
-                }, this);
+            onTest: function(){
+                this._calcPrice();
+                debugger;
             },
 
-            _getFiltersWithValues: function () {
-                var aFiltersWithValue = this.oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
-                    var oControl = oFilterGroupItem.getControl();
+            onAdd: function(oEvent){
+                var oCompoModel = this.getView().getModel("InputData")
+                var oView3Model = this.getView().getModel("view3");
+                var oOptData    = oView3Model.getProperty("/oOptData");
+                var sSelectId   = oEvent.mParameters.id;
+                var sOrder      = sSelectId.charAt(sSelectId.length-1);
+                var sOptName    = oOptData[sOrder].Option;
+                var sOptPrice   = oOptData[sOrder].Price;
+                var iOptPrice   = parseInt(sOptPrice.replace(" 원", "").replace(",", ""))
+                var iOptQuan    = oOptData[sOrder].Quantity;
+                var iAddition   = oView3Model.getProperty("/iAddition");
+                var iCustNum    = oCompoModel.getProperty("/iAdultNum") + 
+                    oCompoModel.getProperty("/iChildNum") + oCompoModel.getProperty("/iBabyNum");
+                    
+                /**
+                 * 추가 인원 만큼 고객 인원 추가
+                 */
+                iCustNum += iAddition;
 
-                    if (oControl && oControl.getSelectedKeys && oControl.getSelectedKeys().length > 0) {
-                        aResult.push(oFilterGroupItem);
-                    }
+                switch(sOptName) {
+                    case '조식 추가':
+                        if( iOptQuan <= iCustNum){
+                            oOptData[sOrder].Quantity += 1;
+                        } else {
+                            MessageToast.show("예약 인원 이상으로 추가할 수 없습니다.")
+                        };
+                        break;
 
-                    return aResult;
-                }, []);
-
-                return aFiltersWithValue;
-            },
-
-            onSelectionChange: function (oEvent) {
-                this.oFilterBar.fireFilterChange(oEvent);
-            },
-    
-            onSearch: function () {
-                var aTableFilters = this.oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
-                    var oControl = oFilterGroupItem.getControl(),
-                        aSelectedKeys = oControl.getSelectedKeys(),
-                        aFilters = aSelectedKeys.map(function (sSelectedKey) {
-                            return new Filter({
-                                path: oFilterGroupItem.getName(),
-                                operator: FilterOperator.EQ,
-                                value1: sSelectedKey
-                            });
-                        });
-    
-                    if (aSelectedKeys.length > 0) {
-                        aResult.push(new Filter({
-                            filters: aFilters,
-                            and: false
-                        }));
-                    }
-    
-                    return aResult;
-                }, []);
-    
-                this.oTable.getBinding("items").filter(aTableFilters);
-                this.oTable.setShowOverlay(false);
-            },
-
-            onFilterChange: function () {
-                this._updateStatusAndTable();
-            },
-
-            onAfterVariantLoad: function () {
-                this._updateStatusAndTable();
-            },
-
-            _getFormattedSummaryText: function() {
-                var aTableFilters = this.oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
-                    var oControl = oFilterGroupItem.getControl(),
-                        aSelectedKeys = oControl.getSelectedKeys(),
-                        aFilters = aSelectedKeys.map(function (sSelectedKey) {
-                            return new Filter({
-                                path: oFilterGroupItem.getName(),
-                                operator: FilterOperator.EQ,
-                                value1: sSelectedKey
-                            });
-                        });
-    
-                    if (aSelectedKeys.length > 0) {
-                        aResult.push(new Filter({
-                            filters: aFilters,
-                            and: false
-                        }));
-                    }    
-                    return aResult;
-                }, []);
-
-                if (aTableFilters.length === 0) {
-                    return "No filters active";
-                } else {
-                    return aTableFilters.length + " filter active: ";
+                    case '추가 인원':
+                        if( iOptQuan < 2 ){
+                            oOptData[sOrder].Quantity += 1;
+                            oView3Model.setProperty("/iAddition", iAddition + 1 );
+                        } else {
+                            MessageToast.show("최대 2인까지 추가 가능합니다.")
+                        };
+                        break;
+                    
+                    default:
+                        if( iOptQuan < 1 ){
+                            oOptData[sOrder].Quantity += 1; 
+                        };
+                        break;
                 }
-            },
-    
-            _getFormattedSummaryTextExpanded: function() {
-                var aTableFilters = this.oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
-                    var oControl = oFilterGroupItem.getControl(),
-                        aSelectedKeys = oControl.getSelectedKeys(),
-                        aFilters = aSelectedKeys.map(function (sSelectedKey) {
-                            return new Filter({
-                                path: oFilterGroupItem.getName(),
-                                operator: FilterOperator.EQ,
-                                value1: sSelectedKey
-                            });
-                        });
-    
-                    if (aSelectedKeys.length > 0) {
-                        aResult.push(new Filter({
-                            filters: aFilters,
-                            and: false
-                        }));
-                    }                    
-                    return aResult;
-                }, []);
 
-                if (aTableFilters.length === 0) {
-                    return "No filters active";
-                } else {
-                    var sText = aTableFilters.length + " filters active";
-                    return sText;
-                }    
+                oOptData[sOrder].Total = iOptPrice * oOptData[sOrder].Quantity;
+                oView3Model.setProperty("/oOptData", oOptData);
+
+                this._calcPrice();
+                this._setOptDetail();
+            },
+
+            onLess: function(oEvent){
+                var oView3Model = this.getView().getModel("view3");
+                var iAddition   = oView3Model.getProperty("/iAddition");
+                var oOptData    = oView3Model.getProperty("/oOptData");
+                var sSelectId   = oEvent.mParameters.id;
+                var sOrder      = sSelectId.charAt(sSelectId.length-1);
+                var sOptName    = oOptData[sOrder].Option;
+                var sOptPrice   = oOptData[sOrder].Price;
+                var iOptPrice   = parseInt(sOptPrice.replace(" 원", "").replace(",", ""))
+                var iOptQuan    = oOptData[sOrder].Quantity;
+                var iMealQuan   = oView3Model.getProperty("/oOptData").find(e => e.Option === '조식 추가').Quantity;
+                var sMealPrice  = oView3Model.getProperty("/oOptData").find(e => e.Option === '조식 추가').Price;
+                var iMealPrice  = parseInt(sMealPrice.replace(" 원", "").replace(",", ""))
+                var iMealIndex  = oView3Model.getProperty("/oOptData").findIndex(e => e.Option === '조식 추가');
+
+                switch(sOptName) {
+                    case '추가 인원':
+                        if( iOptQuan > iMealQuan ){ 
+                            oOptData[sOrder].Quantity -= 1; 
+                            oView3Model.setProperty("/iAddition", iAddition - 1 );
+                            break;
+                        } 
+
+                        if ( iOptQuan == 0 ){
+                            break;
+                        }
+                        oOptData[sOrder].Quantity -= 1;
+                        oOptData[iMealIndex].Quantity -= 1;
+                        oView3Model.setProperty("/iAddition", iAddition - 1 );
+                        break;
+
+                    default:
+                        if( iOptQuan > 0 ){
+                            oOptData[sOrder].Quantity -= 1; 
+                        };
+                        break;
+                }
+
+                oOptData[sOrder].Total = iOptPrice * oOptData[sOrder].Quantity;
+                oOptData[iMealIndex].Total = iMealPrice * oOptData[iMealIndex].Quantity;
+                oView3Model.setProperty("/oOptData", oOptData);
+
+                this._calcPrice();
+                this._setOptDetail();
+            },
+
+            _calcPrice: function(){
+                var oView3Model = this.getView().getModel("view3");
+                var oCompoModel = this.getView().getModel("InputData");
+                var oOptData    = oView3Model.getProperty("/oOptData");
+                var aPriceInfo  = oView3Model.getProperty("/aPriceInfo");
+
+                var sUnitPrice      = aPriceInfo.Price,
+                    iPriceLength    = sUnitPrice.replace(" 원", "").length,
+                    iUnitPrice      = 0,
+                    iRoomDiscount   = parseInt(aPriceInfo.RoomDiscount),
+                    iRoomPremium    = parseInt(aPriceInfo.RoomPremium),
+                    iRoomUnitPrice  = 0,
+                    iCustDiscount   = parseInt(aPriceInfo.CustDiscount),
+                    iWeekendPremium = parseInt(aPriceInfo.WeekendPremium),
+                    iHolidayPremium = parseInt(aPriceInfo.HolidayPremium);
                 
+                var iWeekDayPrice   = 0,
+                    sWeekDayPrice   = "",
+                    iWeekendPrice   = 0,
+                    sWeekendPrice   = "",
+                    iHoliDayPrice   = 0,
+                    sHoliDayPrice   = "",
+                    iTotalRoomPrice = 0,
+                    sTotalRoomPrice = "";
+
+                var iOptPrice      = 0,
+                    sTotalOptDesc  = "",
+                    aTotalOptDesc  = {},
+                    iTotalOptPrice = 0,
+                    sTotalOptPrice = "",
+                    aSelectOpt     = {},
+                    oSelectOpt     = [];
+
+                var iTotalBookPrice = 0,
+                    sTotalBookPrice = "",
+                    iCustDiscountPrice = 0,
+                    sCustDiscountPrice = "",
+                    iFinalPrice = 0,
+                    sFinalPrice = "";
+
+                if( 4 < iPriceLength && iPriceLength < 8 ){
+                    iUnitPrice = parseInt(sUnitPrice.replace(" 원", "").replace(",", ""));
+                } else if ( 7 < iPriceLength && iPriceLength < 11 ) {
+                    iUnitPrice = parseInt(sUnitPrice.replace(" 원", "").replace(",", "").replace(",", ""));
+                };
+
+                iRoomUnitPrice = iUnitPrice + ( iUnitPrice * iRoomPremium / 100 ) - ( iUnitPrice * iRoomDiscount / 100 );
+
+                iWeekDayPrice = iRoomUnitPrice * oCompoModel.getProperty("/iWeekDay");
+                iWeekendPrice = iRoomUnitPrice * oCompoModel.getProperty("/iWeekendDay");
+                iWeekendPrice = iWeekendPrice + ( iWeekendPrice * iWeekendPremium / 100);
+                iHoliDayPrice = iRoomUnitPrice * oCompoModel.getProperty("/iHoliday");
+                iHoliDayPrice = iHoliDayPrice + ( iHoliDayPrice * iHolidayPremium / 100);
+                iTotalRoomPrice = iWeekDayPrice + iWeekendPrice + iHoliDayPrice;
+
+                sWeekDayPrice = this._setPrice(iWeekDayPrice);
+                sWeekendPrice = this._setPrice(iWeekendPrice);
+                sHoliDayPrice = this._setPrice(iHoliDayPrice);
+
+                for( var i=0; i< oOptData.length; i++ ){
+                    iOptPrice = parseInt(oOptData[i].Price.replace(" 원", "").replace(",", ""));
+                    oOptData[i].Total  = iOptPrice * oOptData[i].Quantity;
+                    oOptData[i].sTotal = this._setPrice(oOptData[i].Total);
+
+                    iTotalOptPrice += oOptData[i].Total;
+
+                    if(oOptData[i].Quantity !== 0){
+                        sTotalOptDesc += oOptData[i].Option + "(" + oOptData[i].Quantity + "): " 
+                        +  oOptData[i].sTotal + "/";
+                    }
+
+                    if(oOptData[i].sTotal){
+                        aSelectOpt = {
+                            Option   : oOptData[i].Option,
+                            Price    : oOptData[i].Price,
+                            Quantity : oOptData[i].Quantity,
+                            Total    : oOptData[i].Total,
+                            sTotal   : oOptData[i].sTotal
+                        };
+                        oSelectOpt.push(aSelectOpt);
+                    };
+                }
+                sTotalRoomPrice = this._setPrice(iTotalRoomPrice);
+
+                sTotalOptDesc   = sTotalOptDesc.slice(0,-1);
+                aTotalOptDesc   = sTotalOptDesc.split('/');
+
+                sTotalOptPrice  = this._setPrice(iTotalOptPrice);
+
+                if(sTotalOptPrice == null){
+                    sTotalOptPrice = '0 원';
+                }
+
+                iTotalBookPrice = iTotalRoomPrice + iTotalOptPrice;
+                sTotalBookPrice = this._setPrice(iTotalBookPrice);
+
+                iCustDiscountPrice = iTotalBookPrice * iCustDiscount / 100;
+                sCustDiscountPrice = this._setPrice(iCustDiscountPrice);
+
+                if(sCustDiscountPrice == null){
+                    sCustDiscountPrice = '0 원';
+                }
+
+                iFinalPrice = iTotalBookPrice - iCustDiscountPrice;
+                sFinalPrice = this._setPrice(iFinalPrice);
+
+                oView3Model.setProperty('/aTotalOptDesc', aTotalOptDesc);
+
+                oCompoModel.setProperty('/sTotalRoomPrice',    sTotalRoomPrice);
+                oCompoModel.setProperty('/sTotalOptPrice',     sTotalOptPrice);
+                oCompoModel.setProperty('/sTotalBookPrice',    sTotalBookPrice);
+                oCompoModel.setProperty('/sCustDiscountPrice', sCustDiscountPrice);
+                oCompoModel.setProperty('/sFinalPrice',        sFinalPrice);
+                oCompoModel.setProperty('/sWeekDayPrice',      sWeekDayPrice);
+                oCompoModel.setProperty('/sWeekendPrice',      sWeekendPrice);
+                oCompoModel.setProperty('/sHoliDayPrice',      sHoliDayPrice);
+                oCompoModel.setProperty('/oSelectOpt',         oSelectOpt);
+
             },
 
-            _updateStatusAndTable: function () {
-                this.oExpandedStatus.setText(this._getFormattedSummaryTextExpanded());
-                this.oSnappedStatus.setText(this._getFormattedSummaryText());
-                this.oTable.setShowOverlay(true);
-            },
+            _setPrice: function(iNumber){
+                var sNumber = String(iNumber);
 
-            onPressItem: function(oEvent){
-                var sPath       = oEvent.getParameters().listItem.oBindingContexts.view2.getPath().substring(11);
-                var oView2Model = this.getView().getModel("view2");
-                var sRoomType   = this.getView().getModel("view2").oData.oRoomData[sPath].Roomtp;
-                var sRoomId     = this.getView().getModel("view2").oData.oRoomData[sPath].Roomid;
-                var sRoomNo     = this.getView().getModel("view2").oData.oRoomData[sPath].Roomno;
-                var sTypeInfo   = this.getView().getModel("view2").oData.oRoomData[sPath].Bedtype + " Bed/" + this.getView
-                    ().getModel("view2").oData.oRoomData[sPath].Viewtp;
-                var sRoomSize   = this.getView().getModel("view2").oData.oRoomData[sPath].Rmsize;
-                var sPrice      = this.getView().getModel("view2").oData.oRoomData[sPath].Price;
-                var sRoomClass  = this.getView().getModel("view2").oData.oRoomData[sPath].Classtp;
-
-                oView2Model.setProperty("/sRoomId",    sRoomId);
-                oView2Model.setProperty("/sRoomNo",    sRoomNo);
-                oView2Model.setProperty("/sRoomType",  sRoomType);
-                oView2Model.setProperty("/sTypeInfo",  sTypeInfo);
-                oView2Model.setProperty("/sRoomSize",  sRoomSize);
-                oView2Model.setProperty("/sPrice",     sPrice);
-                oView2Model.setProperty("/sRoomClass", sRoomClass);
-            },
-
-            onNavToView3: function(){
-                var oView2Model = this.getView().getModel("view2");
-
-                if(oView2Model.getProperty("/sRoomId")){
-                    MessageToast.show("123");
+                if( sNumber.length == 5 ){
+                    sNumber = sNumber.substring(0,2) + ',' + sNumber.substring(2,5) + ' 원';
+                } else if( sNumber.length == 6 ){
+                    sNumber = sNumber.substring(0,3) + ',' + sNumber.substring(3,6) + ' 원';
+                } else if( sNumber.length == 7 ){
+                    sNumber = sNumber.substring(0,1) + ',' + sNumber.substring(1,4) + ',' + sNumber.substring(4,7) + ' 원';
+                } else if( sNumber.length == 8 ){
+                    sNumber = sNumber.substring(0,2) + ',' + sNumber.substring(2,5) + ',' + sNumber.substring(5,8) + ' 원';
+                } else if( sNumber.length == 9 ){
+                    sNumber = sNumber.substring(0,3) + ',' + sNumber.substring(3,6) + ',' + sNumber.substring(6,9) + ' 원';
                 } else {
-                    MessageToast.show("객실을 선택해주세요.");
-                }
+                    sNumber = null;
+                };
 
-                this.getRouter().navTo("View3");
+                return sNumber;
             },
 
-            onNavToView2: function () {
-                var oViewModel  = this.getView().getModel("view"),
-                    oCompoModel = this.getOwnerComponent().getModel("InputData"),
-                    sPlant      = oViewModel.getProperty("/sPlant"),
-                    oDateInfo   = oViewModel.getProperty("/oDateInfo"),
-                    sDateInfo   = oViewModel.getProperty("/sDateInfo"),
-                    iWeekDay    = oViewModel.getProperty("/iWeekDay"),
-                    iWeekendDay = oViewModel.getProperty("/iWeekendDay"),
-                    iHoliday    = this.getView().byId("holiDay").getText(),
-                    iAdultNum   = oViewModel.getProperty("/iAdult"),
-                    iChildNum   = oViewModel.getProperty("/iChild"),
-                    iBabyNum    = oViewModel.getProperty("/iBaby"),
-                    sNumInfo    = oViewModel.getProperty("/sNumInfo"),
-                    sCheckIn    = this.getView().byId("checkInInfo").getText(),
-                    sCheckOut   = this.getView().byId("checkOutInfo").getText();
+            _setOptDetail : function(){
+                var oView3Model   = this.getView().getModel("view3");
+                var oOptData      = oView3Model.getProperty("/oOptData");
+                var aTotalOptDesc = oView3Model.getProperty('/aTotalOptDesc');
 
-                if(sPlant == null){
-                    MessageToast.show("예약 지점을 선택해주세요.");
-                } else if(sDateInfo == null){
-                    MessageToast.show("예약 날짜를 선택해주세요.");
-                } else if(sNumInfo == null){
-                    MessageToast.show("예약 인원을 선택해주세요.");
-                } else{
-                    oCompoModel.setProperty("/sPlant", sPlant);
-                    oCompoModel.setProperty("/sCheckIn", sCheckIn);
-                    oCompoModel.setProperty("/sCheckOut", sCheckOut);
-                    oCompoModel.setProperty("/oDateInfo", oDateInfo);
-                    oCompoModel.setProperty("/sDateInfo", sDateInfo);
-                    oCompoModel.setProperty("/iWeekDay", iWeekDay);
-                    oCompoModel.setProperty("/iWeekendDay", iWeekendDay);
-                    oCompoModel.setProperty("/iHoliday", iHoliday);
-                    oCompoModel.setProperty("/iAdultNum", iAdultNum);
-                    oCompoModel.setProperty("/iChildNum", iChildNum);
-                    oCompoModel.setProperty("/iBabyNum", iBabyNum);
-                    oCompoModel.setProperty("/sNumInfo", sNumInfo);
-                    this.getRouter().navTo("View2");
+                for( var i = 0; i< oOptData.length; i++ ){
+                    var sTextId = 'optText' + i
+                    this.getView().byId(sTextId).setText("");
+                    this.getView().byId(sTextId).setVisible(false);
+                }                
+
+                for( var iOpt = 0; iOpt< aTotalOptDesc.length; iOpt++ ){
+                    var sTextid = 'optText' + iOpt
+                    this.getView().byId(sTextid).setText(aTotalOptDesc[iOpt]);
+                    this.getView().byId(sTextid).setVisible(true);
                 }
+            },
+
+            onSelect: function(){
+                var oView3Model = this.getView().getModel("view3");
+                var oCompoModel = this.getView().getModel("InputData");
+                var sRequestText = this.getView().byId('textArea').getValue();
+
+                oCompoModel.setProperty('/sRequestText', sRequestText);
+
+                this._setting();
+
+                this.getRouter().navTo("View4");
             }
 
         });

@@ -90,13 +90,13 @@ sap.ui.define([
                 if( test ) {
                 
                     var sPlant  = oCompoModel.getProperty("/sPlant").substring(10,11),
-                    sAdult  = oCompoModel.getProperty("/iAdultNum") + "",
-                    iChild  = oCompoModel.getProperty("/iChildNum"),
-                    iBaby   = oCompoModel.getProperty("/iBabyNum"),
-                    sChild  = iChild + iBaby + "",
-                    iPeriod = oCompoModel.getProperty("/oDateInfo").length,
-                    sIndat  = oCompoModel.getProperty("/oDateInfo")[0],
-                    sOutdat = oCompoModel.getProperty("/oDateInfo")[iPeriod-1];
+                        sAdult  = oCompoModel.getProperty("/iAdultNum") + "",
+                        iChild  = oCompoModel.getProperty("/iChildNum"),
+                        iBaby   = oCompoModel.getProperty("/iBabyNum"),
+                        sChild  = iChild + iBaby + "",
+                        iPeriod = oCompoModel.getProperty("/oDateInfo").length,
+                        sIndat  = oCompoModel.getProperty("/oDateInfo")[0],
+                        sOutdat = oCompoModel.getProperty("/oDateInfo")[iPeriod-1];
 
                     sIndat  = sIndat.replace('-', '').replace('-', '');
                     sOutdat = sOutdat.replace('-', '').replace('-', '');
@@ -497,7 +497,7 @@ sap.ui.define([
                 oCompoModel.setProperty("/sRoomSize",  sRoomSize);
                 oCompoModel.setProperty("/sPrice",     sPrice);
                 oCompoModel.setProperty("/sRoomClass", sRoomClass);
-                
+
                 this.getRouter().navTo("View3");
             }
 

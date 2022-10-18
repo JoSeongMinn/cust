@@ -2,12 +2,11 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
     xmlns:f="sap.f" xmlns:layout="sap.ui.layout" height="100%"
-    xmlns:fb="sap.ui.comp.filterbar">    
+    xmlns:fb="sap.ui.comp.filterbar">
     <f:DynamicPage id="page"
         stickySubheaderProvider="iconTabBar"
         class="sapUiNoContentPadding"
         toggleHeaderOnTitleClick="{/titleClickable}">
-        <!-- DynamicPage Title -->
         <f:title>
             <f:DynamicPageTitle>
                 <f:heading>
@@ -18,21 +17,22 @@
                         text="No filters active" state="Indication05" />
                 </f:expandedContent>
                 <f:snappedContent>                    
-                    <!-- <ObjectStatus text="{InputData>/sPlant}" state="None" 
+                    <ObjectStatus text="{InputData>/sPlant}" state="None" 
                         inverted="true" class="sapUiSmallMarginEnd" />
                     <ObjectStatus text="{InputData>/sCheckIn} ~ {InputData>/sCheckOut}" state="None" 
                         inverted="true" class="sapUiSmallMarginEnd" />
                     <ObjectStatus text="{InputData>/sNumInfo}" state="None" 
-                        inverted="true" class="sapUiSmallMarginEnd" /> -->
+                        inverted="true" class="sapUiSmallMarginEnd" />
 
-                    <ObjectStatus text="Grand SAP Seoul(서울 본점)" state="None" 
+                    <!-- <ObjectStatus text="Grand SAP Seoul(서울 본점)" state="None" 
                         inverted="true" class="sapUiSmallMarginEnd" />
                     <ObjectStatus text="2022-10-14 ~ 2022-10-15" state="None" 
                         inverted="true" class="sapUiSmallMarginEnd" />
                     <ObjectStatus text="성인: 2명/아동: 1명" state="None" 
                         inverted="true" class="sapUiSmallMarginEnd" />
                     <ObjectStatus id="snappedStatus" class="sapUiSmallMarginBigin" 
-                        text="No filters active" state="Indication05" />
+                        text="No filters active" state="Indication05" /> -->
+                    
                 </f:snappedContent>
                 <f:snappedTitleOnMobile>
                     <Title text="객실 선택"/>
@@ -44,23 +44,22 @@
                 </f:actions>
             </f:DynamicPageTitle>
         </f:title>
-        <!-- DynamicPage Header -->
         <f:header>
             <f:DynamicPageHeader pinnable="true">
                 <layout:HorizontalLayout allowWrapping="true">
                     <layout:VerticalLayout class="sapUiMediumMarginEnd">
 
-                        <!-- <ObjectAttribute title="호텔 지점 " text="{InputData>/sPlant}" class="sapUiTinyMargin" />
+                        <ObjectAttribute title="호텔 지점 " text="{InputData>/sPlant}" class="sapUiTinyMargin" />
 					    <ObjectAttribute id="checkIn"  title="Check-In "  text="{InputData>/sCheckIn}" class="sapUiTinyMargin" />
 					    <ObjectAttribute id="checkOut" title="Check-Out " text="{InputData>/sCheckOut}" class="sapUiTinyMargin" />
 					    <ObjectAttribute title="예약 기간 " text="{InputData>/sDateInfo}" class="sapUiTinyMargin" />
-					    <ObjectAttribute title="예약 인원 " text="{InputData>/sNumInfo}" class="sapUiTinyMargin" /> -->
+					    <ObjectAttribute title="예약 인원 " text="{InputData>/sNumInfo}" class="sapUiTinyMargin" />
 
-                        <ObjectAttribute title="호텔 지점 " text="Grand SAP Seoul(서울 본점)" class="sapUiTinyMargin"/>
+                        <!-- <ObjectAttribute title="호텔 지점 " text="Grand SAP Seoul(서울 본점)" class="sapUiTinyMargin"/>
 					    <ObjectAttribute id="checkInInfo"  title="Check-In "  text="2022-10-14" class="sapUiTinyMargin"/>
 					    <ObjectAttribute id="checkOutInfo" title="Check-Out " text="2022-10-15" class="sapUiTinyMargin"/>
 					    <ObjectAttribute title="예약 기간 " text="1박 2일" class="sapUiTinyMargin"/>
-					    <ObjectAttribute title="예약 인원 " text="성인 1명/아동 2명" class="sapUiTinyMargin"/>
+					    <ObjectAttribute title="예약 인원 " text="성인 1명/아동 2명" class="sapUiTinyMargin"/> -->
                         <Label width="30rem"/>
                     </layout:VerticalLayout>
 

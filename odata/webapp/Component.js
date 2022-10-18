@@ -42,7 +42,22 @@ sap.ui.define([
                     sRoomType   : null,
                     sTypeInfo   : null,
                     sRoomSize   : null,
-                    sPrice      : null
+                    sPrice      : null,
+
+                    sTotalRoomPrice    : null,
+                    sTotalOptPrice     : null,
+                    sTotalBookPrice    : null,
+                    sCustDiscountPrice : null,
+                    sFinalPrice        : null,
+                    sWeekDayPrice      : null,
+                    sWeekendPrice      : null,
+                    sHoliDayPrice      : null,
+
+                    oSelectOpt : [],
+                    aCustInfo  : {},
+                    aPriceInfo : {},
+
+                    sRequestText : null
                 };
                 this.setModel(new JSONModel(oData), "InputData");
 

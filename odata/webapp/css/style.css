@@ -121,3 +121,11 @@
 .sapUiSizeCompact .sapMInputBase {
     height: 2.5rem;
 }
+
+.sapUiSizeCompact .sapMPageHeader .sapMIBar, .sapUiSizeCompact .sapMPageFooter .sapMIBar {
+    height: 3.5rem;
+}
+
+.sapUiSizeCompact .sapMPageHeader .sapMIBar .sapMBarLeft, .sapUiSizeCompact .sapMPageFooter .sapMIBar .sapMBarLeft, .sapUiSizeCompact .sapMPageHeader .sapMIBar .sapMBarRight, .sapUiSizeCompact .sapMPageFooter .sapMIBar .sapMBarRight, .sapUiSizeCompact .sapMPageHeader .sapMIBar .sapMBarPH, .sapUiSizeCompact .sapMPageFooter .sapMIBar .sapMBarPH {
+    height: 3.5rem;
+}

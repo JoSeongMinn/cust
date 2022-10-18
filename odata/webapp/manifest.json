@@ -113,6 +113,13 @@
           "target": [
             "TargetView3"
           ]
+        },
+        {
+          "name": "View4",
+          "pattern": "goView4",
+          "target": [
+            "TargetView4"
+          ]
         }
       ],
       "targets": {
@@ -136,6 +143,13 @@
           "clearControlAggregation": false,
           "viewId": "View3",
           "viewName": "View3"
+        },
+        "TargetView4": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "View4",
+          "viewName": "View4"
         }
       }
     },
