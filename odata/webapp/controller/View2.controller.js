@@ -4,13 +4,12 @@ sap.ui.define([
     "sap/ui/core/routing/History",
     "sap/ui/core/UIComponent",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator", 
-    "sap/m/MessageToast"
+    "sap/ui/model/FilterOperator"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, History, UIComponent, Filter, FilterOperator, MessageToast) {
+    function (Controller, JSONModel, History, UIComponent, Filter, FilterOperator ) {
         "use strict";
 
         return Controller.extend("sap.sync.odata.controller.View2", {
@@ -20,16 +19,6 @@ sap.ui.define([
                     oRoomType : [],
                     oBedType  : [],
                     oViewType : [],
-                    oSample: [
-                        {  Bedtype : "Single", Classtp : "Standard Single", Price : "1,111 원",
-                            Rmsize : "24㎡",   Roomtp  : "SSTSGC",         Viewtp : "City View" },
-
-                        {  Bedtype : "Double", Classtp : "Standard",       Price : "1,11100 원",
-                            Rmsize : "28㎡",   Roomtp  : "SSTDBM",         Viewtp : "Mountain View" },
-
-                        {  Bedtype : "Twin", Classtp : "Standard",         Price : "1,11100 원",
-                            Rmsize : "28㎡",   Roomtp  : "SSTTWC",         Viewtp : "City View" }
-                    ],
                     sRoomClass: null,
                     sRoomId   : null,
                     sRoomNo   : null,
@@ -72,7 +61,7 @@ sap.ui.define([
                     // 브라우저 기능 (ui5 X)
 
                 } else {    // 내가 첫 화면인 경우(undefined), 새로고침, url직접입력
-                    this.getRouter().navTo("RouteView1", {}, true); 
+                    this.getRouter().navTo("Login", {}, true); 
                     // no history 일 때 / RouteView1 뒤는 기본값이기 때문에 생략해도 작동
                 }
             },
@@ -85,6 +74,10 @@ sap.ui.define([
                 var oModel  = this.getView().getModel();
                 // var oModel2 = new sap.ui.model.json.JSONModel();
                 var oView2Model = this.getView().getModel("view2");
+
+                var oButton = this.getView().byId("application-sapsyncodata-display-component---View2--filterbar-btnGo");
+                oButton.setText("검색");
+                oButton.addStyleClass("sapUiTinyMargin");
 
                 var test = oCompoModel.getProperty("/sPlant");
                 if( test ) {
@@ -462,8 +455,7 @@ sap.ui.define([
                 var sRoomType   = this.getView().getModel("view2").oData.oRoomData[sPath].Roomtp;
                 var sRoomId     = this.getView().getModel("view2").oData.oRoomData[sPath].Roomid;
                 var sRoomNo     = this.getView().getModel("view2").oData.oRoomData[sPath].Roomno;
-                var sTypeInfo   = this.getView().getModel("view2").oData.oRoomData[sPath].Bedtype + " Bed/" + this.getView
-                    ().getModel("view2").oData.oRoomData[sPath].Viewtp;
+                var sTypeInfo   = this.getView().getModel("view2").oData.oRoomData[sPath].Bedtype + " Bed / " + this.getView().getModel("view2").oData.oRoomData[sPath].Viewtp;
                 var sRoomSize   = this.getView().getModel("view2").oData.oRoomData[sPath].Rmsize;
                 var sPrice      = this.getView().getModel("view2").oData.oRoomData[sPath].Price;
                 var sRoomClass  = this.getView().getModel("view2").oData.oRoomData[sPath].Classtp;
@@ -497,7 +489,6 @@ sap.ui.define([
                 oCompoModel.setProperty("/sRoomSize",  sRoomSize);
                 oCompoModel.setProperty("/sPrice",     sPrice);
                 oCompoModel.setProperty("/sRoomClass", sRoomClass);
-
                 this.getRouter().navTo("View3");
             }
 

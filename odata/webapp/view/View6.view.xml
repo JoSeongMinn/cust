@@ -1,0 +1,31 @@
+<mvc:View controllerName="sap.sync.odata.controller.View6"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" height="100%"
+    xmlns:fb="sap.ui.comp.filterbar" xmlns:f="sap.f" >
+    <Page showNavButton="false" backgroundDesign="Solid">
+        <headerContent>
+            <Toolbar id="toolbar1">
+                <ObjectHeader title="결제 실패"/>
+                <ToolbarSpacer/>
+            </Toolbar>
+        </headerContent>
+        <Text text="" class="sapUiMediumMarginTop"/>
+        <form:SimpleForm id="form1" class="sapUiMediumMarginBegin"
+            editable="false" backgroundDesign="Solid"
+            layout="ResponsiveLayout">
+            <VBox alignItems="Center">
+                <core:Icon src="sap-icon://sys-cancel-2" size="9rem" class="sapUiLargeMarginTop myColor" />
+                <Title text="결제 실패" titleStyle="H1" width="100%"
+                    textAlign="Center" class="sapUiLargeMarginEnd sapUiSmallMarginTop fontBold myColor"/>
+                <Title titleStyle="H3" class="sapUiSmallMarginTop" text="죄송합니다." />
+                <Title titleStyle="H3" class="sapUiTinyMarginTop" text="예약하신 내역의 결제가 실패하였습니다." />
+                <Title titleStyle="H3" class="sapUiTinyMarginTop" text="확인 후 다시 시도해주세요." />
+                <GenericTile class="sapUiSmallMarginTop tileLayout sapUiSmallMarginBottom" 
+                    id="tileButton" frameType="OneByOne" state="Loaded" press="onNavFirst" sizeBehavior="Small" 
+                    mode="ContentMode" backgroundImage="../images/RETRY.jpg"/>
+            </VBox>
+        </form:SimpleForm>
+    </Page>
+</mvc:View>
+ 

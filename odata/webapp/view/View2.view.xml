@@ -22,25 +22,15 @@
                     <ObjectStatus text="{InputData>/sCheckIn} ~ {InputData>/sCheckOut}" state="None" 
                         inverted="true" class="sapUiSmallMarginEnd" />
                     <ObjectStatus text="{InputData>/sNumInfo}" state="None" 
-                        inverted="true" class="sapUiSmallMarginEnd" />
-
-                    <!-- <ObjectStatus text="Grand SAP Seoul(서울 본점)" state="None" 
-                        inverted="true" class="sapUiSmallMarginEnd" />
-                    <ObjectStatus text="2022-10-14 ~ 2022-10-15" state="None" 
-                        inverted="true" class="sapUiSmallMarginEnd" />
-                    <ObjectStatus text="성인: 2명/아동: 1명" state="None" 
-                        inverted="true" class="sapUiSmallMarginEnd" />
-                    <ObjectStatus id="snappedStatus" class="sapUiSmallMarginBigin" 
-                        text="No filters active" state="Indication05" /> -->
-                    
+                        inverted="true" class="sapUiSmallMarginEnd" />                    
                 </f:snappedContent>
                 <f:snappedTitleOnMobile>
                     <Title text="객실 선택"/>
                 </f:snappedTitleOnMobile>
                 <f:actions>
                     <Button text="이전 화면" type="Transparent" press="onNavBack"/>
-                    <Button text="{= ${view2>/bEnabled} ? '선택 완료' : '선택 필요' }" type="Emphasized"  press="onNavToView3"
-                        enabled="{view2>/bEnabled}" id="selectButton"/>
+                    <Button text="{= ${view2>/bEnabled} ? '선택 완료' : '선택 필요' }" type="Emphasized"
+                        press="onNavToView3" enabled="{view2>/bEnabled}" id="selectButton"/>
                 </f:actions>
             </f:DynamicPageTitle>
         </f:title>
@@ -54,12 +44,6 @@
 					    <ObjectAttribute id="checkOut" title="Check-Out " text="{InputData>/sCheckOut}" class="sapUiTinyMargin" />
 					    <ObjectAttribute title="예약 기간 " text="{InputData>/sDateInfo}" class="sapUiTinyMargin" />
 					    <ObjectAttribute title="예약 인원 " text="{InputData>/sNumInfo}" class="sapUiTinyMargin" />
-
-                        <!-- <ObjectAttribute title="호텔 지점 " text="Grand SAP Seoul(서울 본점)" class="sapUiTinyMargin"/>
-					    <ObjectAttribute id="checkInInfo"  title="Check-In "  text="2022-10-14" class="sapUiTinyMargin"/>
-					    <ObjectAttribute id="checkOutInfo" title="Check-Out " text="2022-10-15" class="sapUiTinyMargin"/>
-					    <ObjectAttribute title="예약 기간 " text="1박 2일" class="sapUiTinyMargin"/>
-					    <ObjectAttribute title="예약 인원 " text="성인 1명/아동 2명" class="sapUiTinyMargin"/> -->
                         <Label width="30rem"/>
                     </layout:VerticalLayout>
 

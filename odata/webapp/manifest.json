@@ -94,8 +94,15 @@
       },
       "routes": [
         {
-          "name": "RouteView1",
+          "name": "Login",
           "pattern": "",
+          "target": [
+            "TargetLogin"
+          ]
+        },
+        {
+          "name": "View1",
+          "pattern": "goView1",
           "target": [
             "TargetView1"
           ]
@@ -120,9 +127,30 @@
           "target": [
             "TargetView4"
           ]
+        },
+        {
+          "name": "View5",
+          "pattern": "goView5",
+          "target": [
+            "TargetView5"
+          ]
+        },
+        {
+          "name": "View6",
+          "pattern": "goView6",
+          "target": [
+            "TargetView6"
+          ]
         }
       ],
       "targets": {
+        "TargetLogin": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Login",
+          "viewName": "Login"
+        },
         "TargetView1": {
           "viewType": "XML",
           "transition": "slide",
@@ -150,6 +178,20 @@
           "clearControlAggregation": false,
           "viewId": "View4",
           "viewName": "View4"
+        },
+        "TargetView5": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "View5",
+          "viewName": "View5"
+        },
+        "TargetView6": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "View6",
+          "viewName": "View6"
         }
       }
     },

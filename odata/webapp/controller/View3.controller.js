@@ -22,7 +22,20 @@ sap.ui.define([
                     iAddition  : 0,
                     sCustType  : "",
                     sCustDiscount : "",
-                    aTotalOptDesc : {}
+                    aTotalOptDesc : {},
+                    oETA : [
+                        { key : '140000', name : '14:00'},
+                        { key : '150000', name : '15:00'},
+                        { key : '160000', name : '16:00'},
+                        { key : '170000', name : '17:00'},
+                        { key : '180000', name : '18:00'},
+                        { key : '190000', name : '19:00'},
+                        { key : '200000', name : '20:00'},
+                        { key : '210000', name : '21:00'},
+                        { key : '220000', name : '22:00'},
+                        { key : '230000', name : '23:00'},
+                        { key : '240000', name : '24:00'}
+                    ]
                 }
                 var oRouter = this.getRouter();
                 var oDataModel = new JSONModel(oData);
@@ -51,7 +64,7 @@ sap.ui.define([
                     // 브라우저 기능 (ui5 X)
 
                 } else {    // 내가 첫 화면인 경우(undefined), 새로고침, url직접입력
-                    this.getRouter().navTo("RouteView1", {}, true); 
+                    this.getRouter().navTo("Login", {}, true); 
                     // no history 일 때 / RouteView1 뒤는 기본값이기 때문에 생략해도 작동
                 }
             },
@@ -125,6 +138,10 @@ sap.ui.define([
                                 case "WLCAMNT":
                                     sOptName  = "Welcome Amenity";
                                     break;
+                                
+                                case 'EXTBED_B':
+                                    sOptName  = "유아용 침대";
+                                    break;
                             }
 
                             aOptData = { 
@@ -140,6 +157,8 @@ sap.ui.define([
                         aCustInfo = {
                             CustId    : sCustId,
                             CustName  : oData.results[0].Custlnm + oData.results[0].Custfnm,
+                            CustLName : oData.results[0].Custlnm,
+                            CustFName : oData.results[0].Custfnm,
                             CustType  : oData.results[0].Custtype,
                             CustTel   : oData.results[0].Custtel,
                             CustEmail : oData.results[0].Custemail
@@ -159,7 +178,8 @@ sap.ui.define([
                         oView3Model.setProperty("/aPriceInfo", aPriceInfo);
                         oView3Model.setProperty("/sCustType",  oData.results[0].Custtype);
                         console.log("Success");
-                    },
+                        this._calcPrice();
+                    }.bind(this),
                     error: function (oError) {
                         console.log("Error")
                     }
@@ -169,11 +189,6 @@ sap.ui.define([
             _setting: function(){
                 this._calcPrice();
                 this._setOptDetail();
-            },
-
-            onTest: function(){
-                this._calcPrice();
-                debugger;
             },
 
             onAdd: function(oEvent){
@@ -431,14 +446,21 @@ sap.ui.define([
                 }
             },
 
+            onSelectETA: function(oEvent){
+                var oCompoModel  = this.getView().getModel("InputData");
+                var sETA = oEvent.oSource.getSelectedKey();
+
+                oCompoModel.setProperty('/sETA', sETA);
+            },
+
             onSelect: function(){
-                var oView3Model = this.getView().getModel("view3");
-                var oCompoModel = this.getView().getModel("InputData");
+                var oView3Model  = this.getView().getModel("view3");
+                var oCompoModel  = this.getView().getModel("InputData");
                 var sRequestText = this.getView().byId('textArea').getValue();
+                var aCustInfo    = oView3Model.getProperty("/aCustInfo")
 
+                oCompoModel.setProperty('/aCustInfo', aCustInfo);
                 oCompoModel.setProperty('/sRequestText', sRequestText);
-
-                this._setting();
 
                 this.getRouter().navTo("View4");
             }

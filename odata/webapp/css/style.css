@@ -129,3 +129,21 @@
 .sapUiSizeCompact .sapMPageHeader .sapMIBar .sapMBarLeft, .sapUiSizeCompact .sapMPageFooter .sapMIBar .sapMBarLeft, .sapUiSizeCompact .sapMPageHeader .sapMIBar .sapMBarRight, .sapUiSizeCompact .sapMPageFooter .sapMIBar .sapMBarRight, .sapUiSizeCompact .sapMPageHeader .sapMIBar .sapMBarPH, .sapUiSizeCompact .sapMPageFooter .sapMIBar .sapMBarPH {
     height: 3.5rem;
 }
+
+.sapMTileSmallPhone.sapMGT.OneByOne {
+    width: 6.25rem !important;
+    height: 3.25rem !important;
+}
+
+.sapMTileSmallPhone .sapMGTHdrContent {
+    height: 2.25rem !important;
+    margin: 1rem 0.5rem 0 0.9rem !important;
+}
+
+.fontBold {
+    font-weight: bold;
+}
+
+.myColor {    
+    color: #354a5f;
+}

@@ -9,11 +9,13 @@
     "sapui5"
   ],
   "main": "webapp/index.html",
-  "dependencies": {},
+  "dependencies": {
+    "@tosspayments/payment-sdk": "^1.1.1"
+  },
   "devDependencies": {
-    "@ui5/cli": "^2.14.1",
+    "@sap/ux-ui5-fe-mockserver-middleware": "1",
     "@sap/ux-ui5-tooling": "1",
-    "@sap/ux-ui5-fe-mockserver-middleware": "1"
+    "@ui5/cli": "^2.14.1"
   },
   "scripts": {
     "start": "fiori run --open \"test/flpSandbox.html?sap-client=100&sap-ui-xx-viewCache=false#sapsyncodata-display\"",

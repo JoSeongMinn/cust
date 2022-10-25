@@ -25,6 +25,16 @@
         data-sap-ui-manifest-uri="./manifest.json"
         data-sap-ui-componentName="sap.sync.odata">
     </script> 
+
+    <title>결제하기</title>
+    <!-- 1. 스크립트 추가 -->
+    <script src="https://js.tosspayments.com/v1"></script>
+    <script>
+        var clientKey = 'test_ck_5GePWvyJnrKDQ65aOkq8gLzN97Eo' // 테스트용 클라이언트 키
+        // 2. 초기화
+        var tossPayments = TossPayments(clientKey)
+    </script>
+    
 </head>
 <body class="sapUiBody sapUiSizeCompact" id="content">
     <div

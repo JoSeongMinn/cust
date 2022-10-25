@@ -1,0 +1,57 @@
+<mvc:View controllerName="sap.sync.odata.controller.View5"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" height="100%"
+    xmlns:fb="sap.ui.comp.filterbar" xmlns:f="sap.f" >
+    <Page showNavButton="false" backgroundDesign="Solid">
+        <headerContent>
+            <Toolbar id="toolbar1">
+                <ObjectHeader title="예약 완료"/>
+                <ToolbarSpacer/>
+                <Button text="홈으로 가기" press="onNavBack" enabled="true"
+                    class="sapUiMediumMarginEnd" type="Emphasized"/>
+            </Toolbar>
+        </headerContent>
+        <Text text="" class="sapUiMediumMarginTop"/>
+        <VBox alignItems="Center">
+                <core:Icon src="sap-icon://accounting-document-verification" size="9rem" class="sapUiLargeMarginTop myColor" />
+                <Title text="예약 완료" titleStyle="H1" width="100%"
+                    textAlign="Center" class="sapUiLargeMarginEnd sapUiSmallMarginTop fontBold myColor"/>
+                <Title titleStyle="H3" class="sapUiSmallMarginTop" text="예약이 성공적으로 완료되었습니다." />
+        </VBox>
+        <form:SimpleForm id="form1" class="sapUiMediumMarginBegin"
+            editable="false" backgroundDesign="Solid"
+            layout="ResponsiveGridLayout"
+            title="예약 정보 확인" width="74rem" 
+            adjustLabelSpan="false" 
+            labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+            emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+            columnsXL="1"   columnsL="1"   columnsM="1"
+            singleContainerFullSize="false" >
+            <HBox width="100%">
+                <Image id="roomImage" src="{view5>/sImageBig}" />
+                <VBox>
+                    <Title text="{view5>/sPlant}" titleStyle="H2" width="23rem"
+                        textAlign="Begin" class="sapUiLargeMarginBegin sapUiMediumMarginTop sapUiLargeMarginBottom"/> 
+                    <Title text="{view5>/sClassType}" titleStyle="H3" width="23rem"
+                        textAlign="Begin" class="sapUiLargeMarginBegin"/>
+                    <Text text="{view5>/sBedType} / {view5>/sViewType}" class="sapUiLargeMarginBegin"/>
+                    <Text text="{view5>/sRoomSize}" class="sapUiLargeMarginBegin"/>
+                    <Title text="{view5>/sCheckIn} ~ {view5>/sCheckOut}" 
+                        class="sapUiLargeMarginBegin sapUiSmallMarginTop"/>
+                    <Text text="{view5>/sNumInfo}" class="sapUiLargeMarginBegin"/>
+                    <Text text="{view5>/sSelOpt}" class="sapUiLargeMarginBegin"/>
+                    <Text text="{view5>/sRequest}" class="sapUiLargeMarginBegin"/>
+                </VBox>
+                <VBox>
+                    <Text text="" class="sapUiLargeMarginTop sapUiLargeMarginBottom"/>
+                    <Title text="{view5>/sPayMethod}" textAlign="End" width="20rem" class="sapUiLargeMarginTop" />
+                    <Text text="결제 비용" class="sapUiSmallMarginTop sapUiMediumMarginBegin"/>
+                    <Title text="{view5>/sPrice}" titleStyle="H1" width="20rem"
+                        textAlign="End" class="sapUiLargeMarginEnd"/> 
+                </VBox>
+            </HBox>
+        </form:SimpleForm>
+    </Page>
+</mvc:View>
+ 

@@ -9,6 +9,7 @@
             <Toolbar id="toolbar1">
 			    <ObjectHeader title="호텔, 날짜, 인원 선택"/>
                 <ToolbarSpacer/>
+                <Button text="이전 화면" type="Transparent" press="onNavBack" class="sapUiTinyMarginBottom"/>
                 <Button text="객실 조회" press="onNavToView2" class="sapUiMediumMarginEnd 
                     sapUiTinyMarginBottom" type="Emphasized"/>
             </Toolbar>

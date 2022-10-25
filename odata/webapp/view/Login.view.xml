@@ -1,0 +1,40 @@
+<mvc:View controllerName="sap.sync.odata.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout"
+    xmlns:u="sap.ui.unified" class="viewPadding"
+    xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core"
+    xmlns:m="sap.m" >
+    <Page id="page" >
+        <headerContent>
+            <Toolbar id="toolbar1">
+			    <ObjectHeader title="Login"/>
+                <ToolbarSpacer/>
+            </Toolbar>
+		</headerContent>
+        <form:SimpleForm id="form1" class="sapUiMediumMarginBegin"
+            editable="false" backgroundDesign="Solid"
+            layout="ResponsiveLayout">
+            <VBox alignItems="Center">
+                <core:Icon src="sap-icon://customer" size="9rem" class="sapUiLargeMarginTop" color="#354a5f" />
+                <Title text="Login" titleStyle="H1" width="100%"
+                    textAlign="Center" class="sapUiLargeMarginEnd sapUiSmallMarginTop fontBold sapUiLargeMarginBottom myColor"/>
+                <VBox>
+                    <HBox>
+                        <Label text="회원 아이디&#160;&#160;: " labelFor="custId" class="sapUiTinyMargin fontBold" width="6rem"/>
+                        <Input id="custId" value="" class="sapUiSmallMarginBegin sapUiLargeMarginEnd" width="13rem"
+                            type="Text" />
+                    </HBox>
+                    <HBox>
+                        <Label text="비밀번호&#160;&#160;&#160;&#160;&#160;&#160;: " labelFor="custPassword" class="sapUiTinyMargin fontBold" width="6rem"/>
+                        <Input id="password" value="" class="sapUiSmallMarginBegin sapUiLargeMarginEnd" width="13rem"
+                            type="Password" />
+                    </HBox>
+                </VBox>
+                <GenericTile class="sapUiSmallMarginTop tileLayout sapUiSmallMarginBottom" 
+                    id="tileButton" frameType="OneByOne" state="Loaded" press="onLogin" sizeBehavior="Small" 
+                    mode="ContentMode" backgroundImage="../images/Login.jpg" />
+            </VBox>
+        </form:SimpleForm>
+    </Page>
+</mvc:View>
+ 

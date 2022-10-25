@@ -7,12 +7,13 @@ sap.ui.define([
     "sap/ui/core/format/DateFormat", 
     "sap/ui/core/library",
     "sap/ui/unified/DateTypeRange",
-    "sap/ui/unified/library"
+    "sap/ui/unified/library",
+    "sap/ui/core/routing/History"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, UIComponent, DateRange, MessageToast, DateFormat, coreLibrary, DateTypeRange, library) {
+    function (Controller, JSONModel, UIComponent, DateRange, MessageToast, DateFormat, coreLibrary, DateTypeRange, library, History) {
         "use strict";
 
         var CalendarType = coreLibrary.CalendarType;
@@ -65,6 +66,24 @@ sap.ui.define([
 
             getRouter : function(){
                 return UIComponent.getRouterFor(this);
+            },
+
+            onNavBack: function () {
+                var oHistory, sPreviousHash;
+    
+                oHistory = History.getInstance();
+                sPreviousHash = oHistory.getPreviousHash();
+                // 내가 첫 화면인지 체크하려고
+    
+                if (sPreviousHash !== undefined) {
+                    window.history.go(-1);  
+                    // window 브라우저의 최상단 객체(화면), 브라우저의 뒤로가기
+                    // 브라우저 기능 (ui5 X)
+
+                } else {    // 내가 첫 화면인 경우(undefined), 새로고침, url직접입력
+                    this.getRouter().navTo("Login", {}, true); 
+                    // no history 일 때 / Login 뒤는 기본값이기 때문에 생략해도 작동
+                }
             }, 
             /**
              * 선택 완료 후 다음 페이지로 이동
@@ -349,10 +368,10 @@ sap.ui.define([
                 };
 
                 if(sChild){
-                    sNumInfo += '/' + sChild;
+                    sNumInfo += ' / ' + sChild;
                 };
                 if(sBaby){
-                    sNumInfo += '/' + sBaby;
+                    sNumInfo += ' / ' + sBaby;
                 };
                 oViewModel.setProperty("/sNumInfo", sNumInfo);
                 oComboBox.setValue(sValue)

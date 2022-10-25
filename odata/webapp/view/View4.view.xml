@@ -8,166 +8,155 @@
             <Toolbar id="toolbar1">
                 <ObjectHeader title="예약 정보 입력"/>
                 <ToolbarSpacer/>
-                <Button text="Test" press="onTest"/>
                 <Button text="이전 화면" press="onNavBack" class=""/>
-                <Button text="선택 완료" press="onSelect" 
+                <Button text="결제하기" press="onPay" enabled="true"
                     class="sapUiMediumMarginEnd" type="Emphasized"/>
             </Toolbar>
         </headerContent>
-        <HBox width="100%">
-            <VBox width="60%">
-                <Text text="" class="sapUiMediumMarginTop"/>
-                <form:SimpleForm id="form1" class="sapUiMediumMarginBegin"
-                    editable="false" backgroundDesign="Solid"
-                    layout="ResponsiveGridLayout"
-                    title="옵션 사항"
-                    adjustLabelSpan="false" 
-                    labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
-                    emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
-                    columnsXL="1"   columnsL="1"   columnsM="1"
-                    singleContainerFullSize="false" >
-                    <Table id="table" inset="false" 
-                        items="{
-                        path: 'view3>/oOptData'
-                        }"
-                        mode="None" selectionChange="onPressItem">
-                        <columns>
-                            <Column width="25%">
-                                <Text text="옵션 명"/>
-                            </Column>
-                            <Column width="45%">
-                                <Text text="Price"/>
-                            </Column>
-                            <Column width="10%" hAlign="Center">
-                                <Text text="" />
-                            </Column>
-                            <Column width="10%" hAlign="Center">
-                                <Text text="수량" />
-                            </Column>
-                            <Column width="10%" hAlign="Center">
-                                <Text text="" />
-                            </Column>
-                        </columns>
-                        <items>
-                            <ColumnListItem id="items" vAlign="Middle">
-                                <cells>
-                                    <Text text="{view3>Option}"/>
-                                    <Text text="{view3>Price}" textAlign="End"/>
-                                    <Button icon="sap-icon://less" class="sapUiTinyMarginBegin"
-                                        press="onLess"/>
-                                    <Text text="{view3>Quantity}" textAlign="Center"/>
-                                    <Button icon="sap-icon://add" class="sapUiTinyMarginEnd"
-                                        press="onAdd"/>
-                                </cells>
-                            </ColumnListItem>
-                        </items>
-                    </Table>
-                </form:SimpleForm>
-                <form:SimpleForm class="sapUiMediumMarginBegin sapUiMediumMarginTop"
-                    editable="false" backgroundDesign="Solid"
-                    title="추가 요청사항" >
-                    <TextArea id="textArea" value="" maxLength="255" width="100%" height="5rem" 
-                        placeholder="호텔 이용 시 문의할 사항이 있으시면 입력해 주십시오."/>
-                </form:SimpleForm>
+        <Text text="" class="sapUiMediumMarginTop"/>
+        <form:SimpleForm id="form1" class="sapUiMediumMarginBegin"
+            editable="false" backgroundDesign="Solid"
+            layout="ResponsiveGridLayout"
+            title="예약 정보" width="74rem" 
+            adjustLabelSpan="false" 
+            labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+            emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+            columnsXL="1"   columnsL="1"   columnsM="1"
+            singleContainerFullSize="false" >
+            <VBox>
+                <HBox width="100%">
+                    <Image id="roomImage" src="{view4>/sImageBig}" />
+                    <VBox>
+                        <Title text="{InputData>/sPlant}" titleStyle="H2" width="23rem"
+                            textAlign="Begin" class="sapUiLargeMarginBegin sapUiMediumMarginTop sapUiLargeMarginBottom"/> 
+                        <Title text="{InputData>/sRoomClass}" titleStyle="H3" width="23rem"
+                            textAlign="Begin" class="sapUiLargeMarginBegin"/>
+                        <Text text="{InputData>/sTypeInfo}" class="sapUiLargeMarginBegin"/>
+                        <Text text="{InputData>/sRoomSize}" class="sapUiLargeMarginBegin"/>
+                        <Text text="{InputData>/sCheckIn} ~ {InputData>/sCheckOut} ({InputData>/sDateInfo})" 
+                            class="sapUiLargeMarginBegin sapUiSmallMarginTop"/>
+                        <Text text="{InputData>/sNumInfo}" class="sapUiLargeMarginBegin"/>
+                       
+
+                    <!-- <Image id="roomImage" src="../images/DLSUB.jpg" />
+                    <VBox>
+                        <Title text="Grand SAP Seoul(서울 본점)" titleStyle="H2" width="23rem"
+                            textAlign="Begin" class="sapUiLargeMarginBegin sapUiMediumMarginTop sapUiMediumMarginBottom"/>
+                        <Title text="Deluxe Suite" titleStyle="H3" width="23rem"
+                            textAlign="Begin" class="sapUiLargeMarginBegin"/>
+                        <Text text="Double Bed / City View" class="sapUiLargeMarginBegin"/>
+                        <Text text="28㎡" class="sapUiLargeMarginBegin"/>
+                        <Text text="2022-10-18 ~ 2022-10-24 (6박 7일)" 
+                            class="sapUiLargeMarginBegin sapUiSmallMarginTop"/>
+                        <Text text="성인: 2명 / 아동: 1명" class="sapUiLargeMarginBegin"/> -->
+
+                        <Label id="optLabel" text="선택 옵션 :" labelFor="optText" visible="false" class="sapUiLargeMarginBegin"/>
+                        <Text id="optText" text="" visible="false" class="sapUiLargeMarginBegin" />
+                    </VBox>
+                </HBox>
             </VBox>
+        </form:SimpleForm>
+        <HBox>
+            <form:SimpleForm id="form2" class="sapUiMediumMarginBegin"
+                editable="false" backgroundDesign="Solid"
+                layout="ResponsiveGridLayout" width="37rem"
+                title="고객 정보" >
+                <VBox>
+                    <HBox>
+                        <VBox class=" sapUiSmallMarginBegin sapUiSmallMarginEnd">
+                            <Label text="성" labelFor="inputLastName"/>
+                            <Input id="inputLastName" required="true" width="13rem"
+                                placeholder="Last Name" maxLength="15" type="Text" 
+                                value="{view4>/sLastName}" class="sapUiSmallMarginBottom" />
+                        </VBox>
+                        <VBox class=" sapUiSmallMarginBegin">
+                            <Label text="이름" labelFor="inputFirstName" />
+                            <Input id="inputFirstName" required="true" width="13rem"
+                                placeholder="First Name" maxLength="15" type="Text"
+                                value="{view4>/sFirstName}" class="sapUiSmallMarginBottom" 
+                                valueStateText="입력해"/>
+                        </VBox>
+                    </HBox>
+                    <Label text="이메일" labelFor="inputEmail" class="sapUiSmallMarginBegin"/>
+                    <Input id="inputEmail" type="Email" width="28rem" maxLength="40"
+                        placeholder="Email" required="true" value="{view4>/sCustEmail}"
+                        class="sapUiSmallMarginBottom sapUiSmallMarginBegin" />
 
-            <VBox width="40%">
-                <Text text="" class="sapUiMediumMarginTop"/>
-                <form:SimpleForm id="form2" class="sapUiMediumMarginBegin"
-                    editable="false" backgroundDesign="Solid"
-                    layout="ResponsiveGridLayout"
-                    title="가격 정보">
-                    <f:DynamicPage id="page"
-                        stickySubheaderProvider="iconTabBar"
-                        class="sapUiNoContentPadding" headerExpanded="false"
-                        toggleHeaderOnTitleClick="{/titleClickable}">
-                        <f:title>
-                            <f:DynamicPageTitle id="InfoHeader" >
-                                <f:heading>
-                                    <Title text="{InputData>/sRoomClass}" titleStyle="H2"/>
-                                </f:heading>
-                                <f:expandedContent>
-                                    <Title text="*상세 내역"/>
-                                </f:expandedContent>
-                                <f:snappedContent>
-                                    <ObjectAttribute title="예약 기간 " text="{InputData>/sDateInfo}" 
-                                        class="sapUiTinyMargin"/>
-                                    <ObjectAttribute title="객실 가격 " class="sapUiTinyMargin"
-                                        text="{InputData>/sTotalRoomPrice}"/>
-                                    <ObjectAttribute id="snapOpt" title="옵션 가격 " class="sapUiTinyMargin"
-                                        text="{InputData>/sTotalOptPrice}"/>
-                                    <ObjectAttribute title="등급 할인 " class="sapUiTinyMargin" 
-                                        text="{InputData>/sCustDiscountPrice}" />
+                    <Label text="연락처" labelFor="inputTel" class="sapUiSmallMarginBegin"/>
+                    <Input id="inputTel" type="Tel" width="28rem" maxLength="30"
+                        placeholder="Phone Number" required="true" value="{view4>/sCustTel}"
+                        class="sapUiSmallMarginBottom sapUiSmallMarginBegin" liveChange="onTelInput"/>
+                </VBox>
+            </form:SimpleForm>
+            <form:SimpleForm id="form3" class="sapUiMediumMarginBegin"
+                editable="false" backgroundDesign="Solid"
+                layout="ResponsiveGridLayout"
+                title="결제 정보">
+                <VBox>
+                    <Label text="결제 방법" labelFor="selectPayment" class="sapUiSmallMarginBegin"/>
+                    <RadioButton text="일반 결제" select="onRadioButton" groupName="buttonGroup" />
+                    <HBox visible="{view4>/bNormalPay}">
+                        <GenericTile class="sapUiMediumMarginBegin sapUiTinyMarginTop tileLayout sapUiSmallMarginBottom" 
+                            id="tile1" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;카드결제" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom"
+                            id="tile2" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;계좌이체" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom" 
+                            id="tile3" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;&#160;&#160;앱카드" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom" 
+                            id="tile4" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;&#160;&#160;휴대폰" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom" 
+                            id="tile5" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;&#160;&#160;상품권" backgroundImage="">
+                        </GenericTile>
+                    </HBox>
+                    <ComboBox id="voucherBox" class="sapUiSmallMarginBottom sapUiMediumMarginBegin"
+                        selectionChange="onSelectDetail" width="28rem" visible="{view4>/bVoucher}" 
+                        placeholder="상품권을 선택해주세요."
+                        items="{ 
+                            path: 'view4>/oVoucher',
+                            templateShareable: true
+                            }">
+                        <core:Item key="{view4>key}" text="{view4>name}"/>
+                    </ComboBox>
+                    <ComboBox id="appCardBox" class="sapUiSmallMarginBottom sapUiMediumMarginBegin"
+                        selectionChange="onSelectDetail" width="28rem" visible="{view4>/bAppCard}"
+                        placeholder="카드사를 선택해주세요."
+                        items="{ 
+                            path: 'view4>/oAppCard',
+                            templateShareable: true
+                            }">
+                        <core:Item key="{view4>key}" text="{view4>name}"/>
+                    </ComboBox>
 
-                                    <Text text="요금 합계" class="sapUiMediumMarginTop sapUiMediumMarginBegin"/>
-                                    <Title text="{InputData>/sFinalPrice}" titleStyle="H1" width="23rem"
-                                        textAlign="End" class="sapUiLargeMarginEnd"/>
-                                </f:snappedContent>
-                            </f:DynamicPageTitle>
-                        </f:title>
-                        <f:header>
-                            <f:DynamicPageHeader pinnable="true">
-                                <layout:HorizontalLayout allowWrapping="true">
-                                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
-
-                                        <Title text="객실 가격" titleStyle="H4" width="23rem"
-                                            textAlign="Begin" class="sapUiSmallMarginBegin"/>
-                                        <ObjectAttribute title="호텔 지점 " class=" sapUiMediumMarginBegin"
-                                            text="{InputData>/sPlant}"/>
-                                        <ObjectAttribute title="예약 기간 " class=" sapUiMediumMarginBegin"
-                                            text="{InputData>/sDateInfo}"/>
-                                        <ObjectAttribute title="기준 가격 " class=" sapUiMediumMarginBegin"
-                                            text="{InputData>/sPrice}"/>
-                                        <ObjectStatus text="평일({InputData>/iWeekDay})    : {InputData>/sWeekDayPrice}" 
-                                            state="None" class="sapUiLargeMarginBegin"/>
-                                        <ObjectStatus text="주말({InputData>/iWeekendDay}) : {InputData>/sWeekendPrice}" state="None" class="sapUiLargeMarginBegin"/>
-                                        <ObjectStatus text="휴일({InputData>/iHoliday})    : {InputData>/sHoliDayPrice}" state="None" class="sapUiLargeMarginBegin"/>
-
-                                        <Title text="{InputData>/sTotalRoomPrice}" titleStyle="H2" width="23rem"
-                                            textAlign="End" class="sapUiLargeMarginEnd"/>
-                                        <Label width="30rem"/>
-                                    </layout:VerticalLayout>
-
-                                    <layout:VerticalLayout>
-                                        <Title text="옵션 가격" titleStyle="H4" width="23rem"
-                                            textAlign="Begin" class="sapUiSmallMarginBegin"/>
-                                        <Text id="optText0" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText1" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText2" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText3" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText4" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText5" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText6" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText7" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText8" text="" textAlign="End" width="13rem" visible="false"/>
-                                        <Text id="optText9" text="" textAlign="End" width="13rem" visible="false"/>
-
-                                        <Title text="{InputData>/sTotalOptPrice}" titleStyle="H2" width="23rem"
-                                            textAlign="End" class="sapUiLargeMarginEnd"/>
-                                        <Label width="30rem"/>
-
-                                        
-                                        <Title text="등급 할인" titleStyle="H4" width="23rem"
-                                            textAlign="Begin" class="sapUiSmallMarginBegin"/>
-                                        <ObjectAttribute title="고객 등급 " class=" sapUiMediumMarginBegin"
-                                            text="{view3>/sCustType}"/>
-                                        
-                                        <Title text="- {InputData>/sCustDiscountPrice}" titleStyle="H2" width="23rem"
-                                            textAlign="End" class="sapUiLargeMarginEnd"/>
-                                        <Label width="30rem"/>
-                                        
-                                        <Text text="요금 합계" class="sapUiMediumMarginTop sapUiMediumMarginBegin"/>
-                                        <Title text="{InputData>/sFinalPrice}" titleStyle="H1" width="23rem"
-                                            textAlign="End" class="sapUiLargeMarginEnd"/>
-                                    </layout:VerticalLayout>
-                                </layout:HorizontalLayout>
-                            </f:DynamicPageHeader>
-                        </f:header>
-                        <f:content>
-                        </f:content>
-                    </f:DynamicPage>                   
-                </form:SimpleForm>
-            </VBox>
+                    <RadioButton text="간편 결제" select="onRadioButton" groupName="buttonGroup" />
+                    <HBox visible="{view4>/bEasyPay}">
+                        <GenericTile class="sapUiMediumMarginBegin sapUiTinyMarginTop tileLayout sapUiSmallMarginBottom" 
+                            id="tile6" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;토스페이" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom"
+                            id="tile7" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="네이버페이" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom" 
+                            id="tile8" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;삼성페이" backgroundImage="">
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginTop sapUiTinyMarginBegin tileLayout sapUiSmallMarginBottom" 
+                            id="tile9" frameType="OneByOne" state="Loaded" press="onTile" sizeBehavior="Small" 
+                            mode="ContentMode" header="&#160;&#160;LG페이" backgroundImage="">
+                        </GenericTile>
+                    </HBox>
+                </VBox>                 
+            </form:SimpleForm>
         </HBox>
     </Page>
 </mvc:View>

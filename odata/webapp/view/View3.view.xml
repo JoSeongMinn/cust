@@ -8,7 +8,6 @@
             <Toolbar id="toolbar1">
                 <ObjectHeader title="옵션 선택"/>
                 <ToolbarSpacer/>
-                <Button text="Test" press="onTest"/>
                 <Button text="이전 화면" press="onNavBack" class=""/>
                 <Button text="선택 완료" press="onSelect" 
                     class="sapUiMediumMarginEnd" type="Emphasized"/>
@@ -26,6 +25,8 @@
                     emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
                     columnsXL="1"   columnsL="1"   columnsM="1"
                     singleContainerFullSize="false" >
+                    <Text text="*선택 가능한 시간대 외에 Check-In하실 경우 Early Check-In을 선택하여주세요."
+                        class="sapUiTinyMarginBegin"/>
                     <Table id="table" inset="false" 
                         items="{
                         path: 'view3>/oOptData'
@@ -62,6 +63,16 @@
                             </ColumnListItem>
                         </items>
                     </Table>
+                    <Label text="예상 도착 시간" labelFor="ETA" class="sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+                    <ComboBox id="ETA" class="sapUiSmallMarginBottom sapUiMediumMarginBegin sapUiTinyMarginTop"
+                        selectionChange="onSelectETA" width="10rem" 
+                        placeholder="예상 도착 시간"
+                        items="{ 
+                            path: 'view3>/oETA',
+                            templateShareable: true
+                            }">
+                        <core:Item key="{view3>key}" text="{view3>name}"/>
+                    </ComboBox>
                 </form:SimpleForm>
                 <form:SimpleForm class="sapUiMediumMarginBegin sapUiMediumMarginTop"
                     editable="false" backgroundDesign="Solid"
@@ -71,7 +82,7 @@
                 </form:SimpleForm>
             </VBox>
 
-            <VBox width="40%">
+            <VBox width="40%" backgroundDesign="Transparent">
                 <Text text="" class="sapUiMediumMarginTop"/>
                 <form:SimpleForm id="form2" class="sapUiMediumMarginBegin"
                     editable="false" backgroundDesign="Solid"
@@ -120,8 +131,10 @@
                                             text="{InputData>/sPrice}"/>
                                         <ObjectStatus text="평일({InputData>/iWeekDay})    : {InputData>/sWeekDayPrice}" 
                                             state="None" class="sapUiLargeMarginBegin"/>
-                                        <ObjectStatus text="주말({InputData>/iWeekendDay}) : {InputData>/sWeekendPrice}" state="None" class="sapUiLargeMarginBegin"/>
-                                        <ObjectStatus text="휴일({InputData>/iHoliday})    : {InputData>/sHoliDayPrice}" state="None" class="sapUiLargeMarginBegin"/>
+                                        <ObjectStatus text="주말({InputData>/iWeekendDay}) : {InputData>/sWeekendPrice}"
+                                            state="None" class="sapUiLargeMarginBegin"/>
+                                        <ObjectStatus text="휴일({InputData>/iHoliday})    : {InputData>/sHoliDayPrice}"
+                                            state="None" class="sapUiLargeMarginBegin"/>
 
                                         <Title text="{InputData>/sTotalRoomPrice}" titleStyle="H2" width="23rem"
                                             textAlign="End" class="sapUiLargeMarginEnd"/>
