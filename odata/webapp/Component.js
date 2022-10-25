@@ -57,7 +57,14 @@ sap.ui.define([
                     aCustInfo  : {},
                     aPriceInfo : {},
 
-                    sRequestText : null
+                    sRequestText : null,
+                    sImageBig  : null,
+
+                    sPaymentMethod : null,
+                    sCustName  : null,
+                    sCustEmail : null,
+                    sCustTel   : null,
+                    sETA       : null
                 };
                 this.setModel(new JSONModel(oData), "InputData");
 
